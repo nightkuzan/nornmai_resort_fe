@@ -6,6 +6,7 @@ class ReservComponent extends Component {
         return(
             <div className="container">
                 ROOMresver
+                <button>Search</button>
             </div>
         )
     }

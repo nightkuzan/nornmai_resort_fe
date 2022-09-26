@@ -1,4 +1,5 @@
 import { Component } from "react"
+import ReservComponent from "./ReservComponent";
 import RoomComponent from "./RoomComponent";
 class NornmaiComponent extends Component {
     state = {}
@@ -7,7 +8,7 @@ class NornmaiComponent extends Component {
             <div className="bg-div">
                 <h1 className="centered">Welcome to Nornmai Resort</h1>
                 <RoomComponent/>
-
+                <ReservComponent/>
             </div>
         )
     }
