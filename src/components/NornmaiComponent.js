@@ -8,7 +8,7 @@ class NornmaiComponent extends Component {
             <div className="bg-div">
                 <h1 className="centered">Welcome to Nornmai Resort</h1>
                 <RoomComponent/>
-                <ReservComponent/>
+                {/* <ReservComponent/> */}
             </div>
         )
     }

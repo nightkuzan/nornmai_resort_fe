@@ -77,7 +77,7 @@ class App extends Component {
             <Route path="/login" element={<LoginComponent />} />
             <Route path="/logout" element={<LogoutComponent />} />
             <Route path="/room" element={<RoomComponent />} />
-            <Route path="/reserv" element={<ReservComponent />} />
+            <Route path="/reserve" element={<ReservComponent />} />
             <Route path="/reservbooking" element={<ReservbookingComponent />} />
 
 
