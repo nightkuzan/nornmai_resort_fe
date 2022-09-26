@@ -6,6 +6,7 @@ import NornmaiComponent from './components/NornmaiComponent';
 import LoginComponent from './components/LoginComponent';
 import LogoutComponent from './components/LogoutComponent';
 import RoomComponent from './components/RoomComponent';
+import ReservComponent from'./components/ReservComponent';
 
 class App extends Component {
   loginStorage = '';
@@ -75,6 +76,9 @@ class App extends Component {
             <Route path="/login" element={<LoginComponent />} />
             <Route path="/logout" element={<LogoutComponent />} />
             <Route path="/room" element={<RoomComponent />} />
+            <Route path="/reserv" element={<ReservComponent />} />
+
+
 
           </Routes>
         </BrowserRouter>
