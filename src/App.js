@@ -72,15 +72,13 @@ class App extends Component {
         </nav>
         <BrowserRouter>
           <Routes>
-            <Route exact path="/" element={<NornmaiComponent />}>
+            <Route exact path="/" element={<NornmaiComponent />}/>
             <Route path="/register" element={<RegisComponent />} />
             <Route path="/login" element={<LoginComponent />} />
             <Route path="/logout" element={<LogoutComponent />} />
             <Route path="/room" element={<RoomComponent />} />
             <Route path="/reserv" element={<ReservComponent />} />
             <Route path="/reservbooking" element={<ReservbookingComponent />} />
-
-            </Route>
 
 
           </Routes>
