@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "./csss/history.css";
+import "./css/history.css";
 
 export default class HistoryComponent extends Component{
     render(){

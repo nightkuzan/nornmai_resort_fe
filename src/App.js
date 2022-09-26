@@ -10,6 +10,8 @@ import ReservComponent from'./components/ReservComponent';
 import ReservbookingComponent from './components/ReservbookingComponent';
 import HistoryComponent from './components/HistoryComponent';
 
+import AdminLoginComponent from './components/AdminComponents/AdminLoginComnponent';
+
 class App extends Component {
   loginStorage = '';
   state = {};
@@ -82,7 +84,8 @@ class App extends Component {
             <Route path="/reservbooking" element={<ReservbookingComponent />} />
             <Route path="/history" element={<HistoryComponent />} />
 
-
+            {/* admin */}
+            <Route path="/admin/login" element={<AdminLoginComponent />} />
           </Routes>
         </BrowserRouter>
       </div>
