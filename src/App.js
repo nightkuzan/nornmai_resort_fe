@@ -8,6 +8,7 @@ import LogoutComponent from './components/LogoutComponent';
 import RoomComponent from './components/RoomComponent';
 import ReservComponent from'./components/ReservComponent';
 import ReservbookingComponent from './components/ReservbookingComponent';
+import HistoryComponent from './components/HistoryComponent';
 
 class App extends Component {
   loginStorage = '';
@@ -79,6 +80,7 @@ class App extends Component {
             <Route path="/room" element={<RoomComponent />} />
             <Route path="/reserve" element={<ReservComponent />} />
             <Route path="/reservbooking" element={<ReservbookingComponent />} />
+            <Route path="/history" element={<HistoryComponent />} />
 
 
           </Routes>
