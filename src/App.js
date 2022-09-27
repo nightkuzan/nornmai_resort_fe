@@ -11,6 +11,7 @@ import ReservbookingComponent from './components/ReservbookingComponent';
 import HistoryComponent from './components/HistoryComponent';
 import ProfileComponent from './components/ProfileComponent';
 
+
 import AdminLoginComponent from './components/AdminComponents/AdminLoginComnponent';
 import StaffComponent from './components/AdminComponents/StaffComponent';
 import StaffEditComponent from './components/AdminComponents/StaffEditComponent';
@@ -88,11 +89,12 @@ class App extends Component {
             <Route path="/reservbooking" element={<ReservbookingComponent />} />
             <Route path="/history" element={<HistoryComponent />} />
             <Route path="/profile" element={<ProfileComponent />} />
+
             {/* admin */}
             <Route path="/admin/login" element={<AdminLoginComponent />} />
             <Route path="/staff" element={<StaffComponent />} />
             <Route path="/staff-edit" element={<StaffEditComponent />} />
-            <Route path="/staff-add" element={<StaffAddComponent />} />
+            <Route path="/staff-add" element={<StaffAddComponent />} /> 
           </Routes>
         </BrowserRouter>
       </div>
