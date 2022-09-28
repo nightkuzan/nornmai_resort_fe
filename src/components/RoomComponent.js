@@ -20,10 +20,12 @@ class RoomComponent extends Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({ 'room': data });
+                console.log(data);
             })
             .catch(error => {
                 console.error('There was an error!', error);
             });
+
     }
 
     readImage(img) {
