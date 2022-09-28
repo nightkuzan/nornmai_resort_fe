@@ -11,6 +11,7 @@ export default class HistoryComponent extends Component{
             ctPoint: 0,
         };
     }
+    
 
     componentDidMount() {
         this.loginStorage = JSON.parse(localStorage.getItem('login'));
