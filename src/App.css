@@ -181,3 +181,7 @@ a.navbar-brand {
   background-color: rgb(144, 230, 183) !important;
   width: fit-content !important;
 }
+
+.t-size{
+  font-size: 10px;
+}

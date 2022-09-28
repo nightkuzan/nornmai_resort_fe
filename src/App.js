@@ -18,6 +18,7 @@ import StaffEditComponent from './components/AdminComponents/StaffEditComponent'
 import StaffAddComponent from './components/AdminComponents/StaffAddComponent';
 import RoomAdminComponent from './components/AdminComponents/RoomAdminComponent';
 import BookingInfoComponent from './components/AdminComponents/BookingInfoComponent';
+import AdminAllBooking from './components/AdminComponents/AdminAllBooking';
 
 class App extends Component {
   loginStorage = '';
@@ -99,6 +100,7 @@ class App extends Component {
             <Route path="/staff" element={<StaffComponent />} />
             <Route path="/staff-edit" element={<StaffEditComponent />} />
             <Route path="/staff-add" element={<StaffAddComponent />} /> 
+            <Route path="/admin" element={<AdminAllBooking />} />
           </Routes>
         </BrowserRouter>
       </div>

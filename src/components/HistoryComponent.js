@@ -15,8 +15,8 @@ export default class HistoryComponent extends Component{
 
     componentDidMount() {
         this.loginStorage = JSON.parse(localStorage.getItem('login'));
-        this.setState({ 'userId': <div className="column-g">User ID : {this.loginStorage.ctUserId}</div> });
-        this.setState({ 'memberType': <div className="column-g">Member Type : {this.loginStorage.mbTypeName}</div> })
+        this.setState({ 'userId': <span className="column-g">User ID : {this.loginStorage.ctUserId}</span> });
+        this.setState({ 'memberType': <span className="column-g">Member Type : {this.loginStorage.mbTypeName}</span> })
         const requestOptions = {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
@@ -25,7 +25,7 @@ export default class HistoryComponent extends Component{
         fetch('http://localhost:3001/history?userid='+ this.loginStorage.ctUserId, requestOptions)
         .then(response => response.json())
         .then(data => {
-            this.setState({ 'memberPoint': <div className="column-g">Member Point : {data.ctPoint}</div> })
+            this.setState({ 'memberPoint': <span className="column-g">Member Point : {data.ctPoint}</span> })
         })
         .catch(error => {
         console.error('There was an error!', error);
@@ -38,12 +38,58 @@ export default class HistoryComponent extends Component{
                 <div className='header-his'>
                     <header>HISTORY</header>
                 </div>
-                <hr className='hr-line'></hr>
-                <div className='ht-info'>
-                    {this.state.userId}
-                    {this.state.memberType}
-                    {this.state.memberPoint}
+                <hr/>
+                <div className='row'>
+                    <div className='col-12'>
+                        {this.state.userId}
+                        {this.state.memberType}
+                        {this.state.memberPoint}
+                    </div>
                 </div>
+                <br/>
+                <table className="table">   
+                    <thead>                
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" style={{ textAlign: "center" }}>
+                                Booking ID
+                            </th>
+                            <th scope="col" style={{ textAlign: "center" }}>
+                                Room Type
+                            </th>
+                            <th scope="col" style={{ textAlign: "center" }}>
+                                Check-in
+                            </th>
+                            <th scope="col" style={{ textAlign: "center" }}>
+                                Floor
+                            </th>
+                            <th scope="col" style={{ textAlign: "center" }}>
+                                Check-out
+                            </th>
+                            <th scope="col" style={{ textAlign: "center" }}>
+                                Discount Code
+                            </th>
+                            <th scope="col" style={{ textAlign: "center" }}>
+                                Point Use
+                            </th>
+                            <th scope="col" style={{ textAlign: "center" }}>
+                                Total Price
+                            </th>
+                            <th scope="col" style={{ textAlign: "center" }}>
+                                Get Point
+                            </th>
+                            <th scope="col" style={{ textAlign: "center" }}>
+                                Reason
+                            </th>
+                            <th scope="col" style={{ textAlign: "center" }}>
+                                Status
+                            </th>
+                            <th scope="col" style={{ textAlign: "center" }}>
+                                Cancel/Review
+                            </th>
+                        </tr>
+                    </thead>               
+                </table>
             </div>
         )
     }
