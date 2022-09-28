@@ -13,6 +13,7 @@ export default class RoomAdminComponent extends Component {
           <span className="header-reserve">ROOM</span>
           <hr />
         </div>
+      
         <div>
           <table className="table">
             <thead>
