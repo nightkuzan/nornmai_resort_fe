@@ -16,6 +16,8 @@ import AdminLoginComponent from './components/AdminComponents/AdminLoginComnpone
 import StaffComponent from './components/AdminComponents/StaffComponent';
 import StaffEditComponent from './components/AdminComponents/StaffEditComponent';
 import StaffAddComponent from './components/AdminComponents/StaffAddComponent';
+import RoomAdminComponent from './components/AdminComponents/RoomAdminComponent';
+import BookingInfoComponent from './components/AdminComponents/BookingInfoComponent';
 
 class App extends Component {
   loginStorage = '';
@@ -92,6 +94,8 @@ class App extends Component {
 
             {/* admin */}
             <Route path="/admin/login" element={<AdminLoginComponent />} />
+            <Route path="/room-admin" element={<RoomAdminComponent />} />
+            <Route path="/payment" element={<BookingInfoComponent />} />
             <Route path="/staff" element={<StaffComponent />} />
             <Route path="/staff-edit" element={<StaffEditComponent />} />
             <Route path="/staff-add" element={<StaffAddComponent />} /> 
