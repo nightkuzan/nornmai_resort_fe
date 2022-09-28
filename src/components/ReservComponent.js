@@ -52,8 +52,7 @@ class ReservComponent extends Component {
             <input type="date" name="dob" value={this.state.dob} onChange={this.handleChange} className="form-control" />
           </div>
         </div>
-        
-        <a className="button-search">SEARCH</a>
+        <button className="button-search">SEARCH</button>
         
       </div>
       

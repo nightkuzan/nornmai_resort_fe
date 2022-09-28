@@ -86,7 +86,8 @@ class LoginComponent extends Component {
                                 <br />
                             </div>
                         </div>
-
+                        
+                        
                         <div className="row">
                             <span>New User? <a href="/register">Sign up</a></span>
                         </div>
