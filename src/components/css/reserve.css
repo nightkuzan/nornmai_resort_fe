@@ -1,0 +1,20 @@
+.header-reserve{
+    text-align: center;
+    height: 80px;
+    font-size: 50px;
+    margin-left: 120px;
+    margin-right: 120px;
+    background-color: #FC847E;
+    border-radius: 2em;
+    color: white;
+}
+.button-search{
+    text-align: center;
+    background-color: green;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 10px;
+    display: block;
+    width: 10%;
+    
+}
