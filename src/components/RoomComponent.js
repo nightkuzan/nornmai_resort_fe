@@ -32,6 +32,9 @@ class RoomComponent extends Component {
         var buffer = new Buffer(img, 'base64');
         return buffer;
       }
+      
+    
+
 
     render() {
         return (

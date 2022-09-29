@@ -2,7 +2,6 @@ import { Component } from "react"
 
 class RegisComponent extends Component {
     state = {}
-
     constructor() {
         super();
         this.state = {
