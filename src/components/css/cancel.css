@@ -1,0 +1,48 @@
+.column-cancel {
+    border-radius: 25px;
+    background-color:#FC847E;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+
+}
+
+.box-cancel{
+    display: block;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 25px;
+    background-color: #e2e4e4;
+}
+
+.cancel-info {
+    border-radius: 25px;
+    background-color:#FC847E;
+    margin-right: 700px;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 250px;
+    padding-right: 250px;
+    color: white;
+    text-align: center;
+
+}
+
+.column-check{
+    text-align: center;
+    padding: 5px;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    margin-left: 15px !important; 
+    margin-right: 15px !important;
+    border-radius: 25px;
+    background-color: #FC847E !important;
+    width: fit-content !important;
+    display: inline;
+    color: white;
+}

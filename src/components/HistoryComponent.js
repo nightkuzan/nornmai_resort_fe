@@ -27,11 +27,16 @@ export default class HistoryComponent extends Component{
         .then(data => {
             this.setState({ 'memberPoint': <span className="column-g">Member Point : {data.ctPoint}</span> })
         })
+        // fetch('http://localhost:3001/booking?userid='+ this.loginStorage.ctUserId, requestOptions)
+        // .then(response => response.json())
+        // .then(data => {
+        //     this.setState({ 'memberPoint': <span className="column-g">Member Point : {data.ctPoint}</span> })
+        // }) fetch ข้อมูลในตาราง เดี๋ยวมาทำต่อ ร่างโครงไว้ก่อน
         .catch(error => {
         console.error('There was an error!', error);
-        alert('เกิดข้อผิดพลาดในการเพิ่มข้อมูล');
         });
     }
+
     render(){
         return(
             <div className='container'>
