@@ -34,24 +34,25 @@ class ReservComponent extends Component {
     return buffer
   }
 
+  
 
   render() {
     return (
       <div className="row">
-        {/* {this.state.room.map((room,index)=>(
-          <div className="x" key={index}>
-          <img src={this.readImage(room.image)} alt="room"/>
-          </div>
-        ))} */}
         
           <div className='container'>
                 <div className='header-reserv'>
                     <header>RESERVE</header>
                 </div>
           </div>
+<<<<<<< HEAD
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
+=======
+        <div className="select-date">
+          <div className="form-group">
+>>>>>>> 908fd54d473350087a4e1cd34edc868759d60695
             <label htmlFor="dob" className="control-label">Check-in</label>
             <input type="date" name="dob" value={this.state.dob} onChange={this.handleChange} className="form-control" />
             </div>
@@ -99,6 +100,7 @@ class ReservComponent extends Component {
               <br />
 
         
+        <button className="button-search">SEARCH</button>
         
       </div>
       
