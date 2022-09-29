@@ -1,20 +1,23 @@
-.header-reserve{
+.header-reserv{
     text-align: center;
     height: 80px;
     font-size: 50px;
-    margin-left: 120px;
-    margin-right: 120px;
+    margin-left: 250px;
+    margin-right: 250px;
     background-color: #FC847E;
     border-radius: 2em;
     color: white;
-}
-.button-search{
-    text-align: center;
-    background-color: green;
-    color: white;
-    text-decoration: none;
-    margin-bottom: 10px;
-    display: block;
-    width: 10%;
     
 }
+/* .button-search{
+    color: white;
+    background-color: green;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 10px;
+    display: inline-block;
+    border-radius: 4px;
+    
+} */
+
