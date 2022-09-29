@@ -1,6 +1,8 @@
 import './App.css';
 import { Component } from 'react';
 import { BrowserRouter , Navigate, Routes,  Route } from 'react-router-dom';
+
+// user
 import RegisComponent from './components/RegisComponent';
 import NornmaiComponent from './components/NornmaiComponent';
 import LoginComponent from './components/LoginComponent';
@@ -11,7 +13,7 @@ import ReservbookingComponent from './components/ReservbookingComponent';
 import HistoryComponent from './components/HistoryComponent';
 import ProfileComponent from './components/ProfileComponent';
 
-
+// admin
 import AdminLoginComponent from './components/AdminComponents/AdminLoginComnponent';
 import StaffComponent from './components/AdminComponents/StaffComponent';
 import StaffEditComponent from './components/AdminComponents/StaffEditComponent';
@@ -83,6 +85,7 @@ class App extends Component {
         </nav>
         <BrowserRouter>
           <Routes>
+            {/* user */}
             <Route exact path="/" element={<NornmaiComponent />}/>
             <Route path="/register" element={<RegisComponent />} />
             <Route path="/login" element={<LoginComponent />} />

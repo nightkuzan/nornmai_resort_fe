@@ -30,20 +30,15 @@ class ReservComponent extends Component {
     return buffer
   }
 
+  
 
   render() {
     return (
       <div className="row">
-        {/* {this.state.room.map((room,index)=>(
-          <div className="x" key={index}>
-          <img src={this.readImage(room.image)} alt="room"/>
-          </div>
-        ))} */}
         
           <div className='header-reserve'>
               <header>RESERVE</header>
           </div>
-        
         <div className="select-date">
           <div className="form-group">
             <label htmlFor="dob" className="control-label">Check-in</label>
