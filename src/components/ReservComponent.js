@@ -27,6 +27,7 @@ class ReservComponent extends Component {
         .catch(error => {
             console.error('There was an error!', error);
         });
+        
 
 }
   readImage(img){
@@ -54,7 +55,7 @@ class ReservComponent extends Component {
             <input type="date" name="dob" value={this.state.dob} onChange={this.handleChange} className="form-control" />
             </div>
           </div>
-      
+  
 
           <div className="col-md-6">
           <div className="form-group">
