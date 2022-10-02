@@ -48,23 +48,36 @@ export default class CancelComponent extends Component{
                     </div>
                 </div>
                 <br/>
-                <br/>   
-                <div className='box-cancel'>
-                    <div className='row'>
-                        <div className='col-12'>
-                            <br/>
-                            <div className="column-check">Check-in : 27-03-2022</div>
-                            <div style={{display: "inline"}}>to</div>
-                            <div className="column-check">Check-out : 28-03-2022</div>
-                            <br/>
-                            <br/>
-                            <div className='cancel-info'>noob</div>
-                            <div className='cancel-info'>fuck</div>
-                            <div className='cancel-info'>gg</div>
-                            <div className='cancel-info'>ez</div>
+                <div className='layout-cancel'>
+                    <div className='row-can'>
+                        <div className='column-can'>
+                            <div className='left-block'>
+                                <span className='column-check'>Check-in: 27-07-2022</span>
+                                <span>to</span>
+                                <span className='column-check'>Check-out: 28-07-2022</span>
+                                <br/>
+                                <br/>
+                                <div className='bg-text-summary-cancel'>1</div>
+                                <div className='bg-text-summary-cancel'>2</div>
+                                <div className='bg-text-summary-cancel'>3</div>
+                                <div className='bg-text-summary-cancel'>4</div>
+                            </div>
+                        </div>
+                        <div className='column-can'>
+                            <div className='right-block'>
+                                <div className='column-check'>Reason for cancellation</div>
+                                <br/>
+                                <br/>
+                                <div className='comment-box'>
+                                    <form className='comment-form'>
+                                        <textarea className='coms' type="text"/>
+                                    </form>
+                                    <button className='cancel-button'>CONFIRM CANCEL</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </div>           
             </div>
         )
     }
