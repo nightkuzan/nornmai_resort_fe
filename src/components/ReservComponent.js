@@ -9,7 +9,14 @@ class ReservComponent extends Component {
   constructor(){
     super()
     this.state ={
-      'room':[]
+      'room':[],
+      "checkin": moment(new Date()).format('YYYY-MM-DD'),
+      "checkout": '',
+      "saveCheckin": '',
+      "saveCheckout": '',
+      "userId": '',
+      "memberType": '',
+      "min" : moment(new Date()).format('YYYY-MM-DD')
     };
   }
   componentDidMount() {
