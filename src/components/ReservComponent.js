@@ -1,114 +1,141 @@
-import { Component } from "react";
+import { Component } from "react"
 import { Buffer } from 'buffer';
 import moment from 'moment';
-import "./css/reserve.css";
-import userEvent from "@testing-library/user-event";
 
 class ReservComponent extends Component {
-  state = {}
-  constructor(){
-    super()
-    this.state ={
-      'room':[],
-      "checkin": moment(new Date()).format('YYYY-MM-DD'),
-      "checkout": '',
-      "saveCheckin": '',
-      "saveCheckout": '',
-      "userId": '',
-      "memberType": '',
-      "min" : moment(new Date()).format('YYYY-MM-DD')
-    };
-  }
-  componentDidMount() {
-    const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-    };
+    state = {}
+    constructor() {
+        super();
+        this.state = {
+            "room": [],
+            "checkin": moment(new Date()).format('YYYY-MM-DD'),
+            "checkout": '',
+            "saveCheckin": '',
+            "saveCheckout": '',
+            "userId": '',
+            "memberType": '',
+            "min" : moment(new Date()).format('YYYY-MM-DD')
+        }
+        console.log(this.state.min)
+        this.handleChange = this.handleChange.bind(this);
+        this.handleChangeDate = this.handleChangeDate.bind(this);
+        this.search = this.search.bind(this);
+    }
 
-    fetch('http://localhost:3001/room', requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            this.setState({ 'room': data });
-            console.log(data);
-        })
-        .catch(error => {
-            console.error('There was an error!', error);
-        });
+    componentDidMount() {
+        this.loginStorage = JSON.parse(localStorage.getItem('login'));
+        this.setState({ 'userId': <span className="bg-text-user">User ID : {this.showUserId(this.loginStorage.ctUserId)}</span> });
+        this.setState({ 'memberType': <span className="bg-text-user">Member Type : {this.loginStorage.mbTypeName}</span> })
+    }
 
-}
-  readImage(img){
-    var buffer = new Buffer(img,'base64');
-    return buffer
-  }
+    
 
-  
+    search(e) {
+        e.preventDefault();
+        this.setState({ 'saveCheckin': this.state.checkin });
+        this.setState({ 'saveCheckout': this.state.checkout });
 
-  render() {
-    return (
-      <div className="inside-box" >
-        
-          <div className='container'>
-                <div className='header-reserv'>
-                    <header>RESERVE</header>
+        const requestOptions = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        };
+
+        fetch('http://localhost:3001/reserve?checkin=' + this.state.checkin + '&checkout=' + this.state.checkout, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ 'room': data });
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                alert('เกิดข้อผิดพลาดในการเพิ่มข้อมูล');
+            });
+    }
+
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+        this.setState({ "error": "" });
+    }
+    
+    handleChangeDate(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+        this.setState({ 'checkout': value });
+        this.setState({ "error": "" });
+    }
+
+
+    readImage(img) {
+        var buffer = new Buffer(img, 'base64');
+        return buffer;
+    }
+    showUserId(id) {
+        let user = "CT";
+        for (let index = 0; index < 5 - id.toString().length; index++) {
+            user += "0";
+        }
+        user += id;
+        return user;
+    }
+
+    render() {
+        return (
+            <div className="bg-div" style={{ 'paddingLeft': '10%', 'paddingRight': '10%' }}>
+                <div className="header-topic">
+                    <span>RESERVE</span>
+                    <hr />
                 </div>
-          </div>
-        <div className="row" >
-          <div className="col-md-6">
-            <div className="form-group">
-            <label htmlFor="dob" className="control-label">Check-in</label>
-            <input type="date" name="dob" value={this.state.dob} onChange={this.handleChange} className="form-control" />
+                <div className="row">
+                    <div className="col-12">
+                        {this.state.userId}
+                        {this.state.memberType}
+                    </div>
+                </div>
+                <br />
+                <div>
+                    <form onSubmit={this.search}>
+                        <div className="row">
+                            <div className="col-6">
+                                <span>Check-in</span>
+                                <input type="date" name="checkin" min={this.state.min} max="2025-12-31" value={this.state.checkin} onChange={this.handleChangeDate} className="form-control" required />
+                            </div>
+                            <div className="col-6">
+                                <span>Check-out</span>
+                                <input type="date" name="checkout" min={this.state.checkin} max="2025-12-31" value={this.state.checkout} onChange={this.handleChange} className="form-control" required />
+                            </div>
+                        </div>
+                        <div className="row" style={{ 'marginTop': '20px' }}>
+                            <div style={{ 'width': '100%', 'textAlign': 'center' }}>
+                                <button type="submit" className="btn btn-primary" style={{ 'width': '100%' }}>Search</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div className="row" style={{'marginTop' : '30px'}}>
+                        {this.state.room.map((room, index) => (
+                            <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12" key={index} style={{ 'marginBottom': '20px' }}>
+                                <div className="card card-reserve">
+                                    <div className="card-header card-header-reserve">
+                                        <h4>{room.roomTypeName}</h4>
+                                    </div>
+                                    <div className="card-body">
+                                        <img src={this.readImage(room.image)} alt="room" style={{ 'width': '100%' }} /><br />
+                                        <span className="bg-text-reserve">{room.description}</span>
+                                        <span className="bg-text-reserve">จำนวนคนสูงสุดที่สามารถเข้าพักได้ {room.capacity} คน</span>
+                                        <span className="bg-text-reserve">จำนวนห้องพักคงเหลือ {room.freeRoom} ห้อง</span><br />
+                                        <span className="bg-text-reserve">ราคาห้องพัก {room.price.toLocaleString()} บาท</span><br />
+                                        {room.freeRoom > 0 ? <a href={ "/reserve-room?roomType=" + room.roomTypeID + "&checkin=" + this.state.saveCheckin + "&checkout=" + this.state.checkout }><button className="btn btn-primary" style={{ 'width': '100%' }}>Reserve this room</button></a>: ''}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <br />
+                <br />
+                <br />
             </div>
-          </div>
-
-          <div className="col-md-6">
-          <div className="form-group">
-            <label htmlFor="dob" className="control-label">Check-out</label>
-            <input type="date" name="dob" value={this.state.dob} onChange={this.handleChange} className="form-control" />
-          </div>
-          </div>
-        </div>
-        
-        
-        
-        <div className="row">
-          <div className="form-group" style={{ 'textAlign': 'center' }}>
-          <br />
-          <button type="submit" className="btn btn-primary">SEARCH</button>
-          <br />
-          </div>
-        </div>
-
-        <div>
-          <div className="row">
-            {this.state.room.map((room, index) => (
-              <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12" key={index} style={{'marginBottom' : '20px'}}>
-                <div className="card">
-                  <div className="card-header">
-                    <h4>{room.roomTypeName}</h4>
-                    </div>
-                      <div className="card-body">
-                      <img src={this.readImage(room.image)} alt="room" style={{'width': '100%'}}/><br />
-                      <span>{room.description}</span><br />
-                      <span>จำนวนคนสูงสุดที่สามารถเข้าพักได้ {room.capacity} คน</span><br /><br />
-                      <span>ราคาห้องพัก {room.price.toLocaleString()} บาท</span><br />
-                    </div>
-                  </div>
-                </div>
-              ))}
-              </div>
-              </div>
-              <br />
-              <br />
-              <br />
-
-        
-      
-        
-      </div>
-      
-      
-    );
-  }
+        )
+    }
 }
 
-export default ReservComponent;
+export default ReservComponent
