@@ -38,23 +38,20 @@ class ReservComponent extends Component {
 
   render() {
     return (
-      <div className='row'>
+      <div className="inside-box" >
         
           <div className='container'>
                 <div className='header-reserv'>
                     <header>RESERVE</header>
                 </div>
           </div>
-        <div className="row abs">
+        <div className="row" >
           <div className="col-md-6">
             <div className="form-group">
-        <div className="select-date">
-          <div className="form-group">
             <label htmlFor="dob" className="control-label">Check-in</label>
             <input type="date" name="dob" value={this.state.dob} onChange={this.handleChange} className="form-control" />
             </div>
           </div>
-      
 
           <div className="col-md-6">
           <div className="form-group">
@@ -98,12 +95,9 @@ class ReservComponent extends Component {
               <br />
 
         
-        <button className="button-search">SEARCH</button>
+      
         
       </div>
-      </div>
-      </div>
-      
       
       
     );
