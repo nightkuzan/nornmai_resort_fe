@@ -93,7 +93,7 @@ class App extends Component {
             <Route path="/logout" element={<LogoutComponent />} />
             <Route path="/room" element={<RoomComponent />} />
             <Route path="/reserve" element={<ReservComponent />} />
-            <Route path="/reservbooking" element={<ReservbookingComponent />} />
+            <Route path="/reserve-room" element={<ReservbookingComponent />} />
             <Route path="/history" element={<HistoryComponent />} />
             <Route path="/profile" element={<ProfileComponent />} />
             <Route path="/cancelbooking" element={<CancelComponent />} />
