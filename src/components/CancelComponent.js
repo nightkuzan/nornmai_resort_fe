@@ -8,14 +8,14 @@ export default class CancelComponent extends Component{
         this.state ={
             ctUserID: '',
             mbTypeID: '',
-            ctPoint: 0,
+            ctPoint: 0
         };
     }
     
 
     componentDidMount() {
         this.loginStorage = JSON.parse(localStorage.getItem('login'));
-        this.setState({ 'userId': <span className="column-cancel">User ID : {this.loginStorage.ctUserId}</span> });
+        this.setState({ 'userId': <span className="column-g">User ID : {this.showUserId(this.loginStorage.ctUserId)}</span> });
         this.setState({ 'memberType': <span className="column-cancel">Member Type : {this.loginStorage.mbTypeName}</span> })
         const requestOptions = {
             method: 'GET',
@@ -29,7 +29,15 @@ export default class CancelComponent extends Component{
         })
         .catch(error => {
             console.error('There was an error!', error);
-            });
+        });
+    }
+    showUserId(id) {
+        let user = "CT";
+        for (let index = 0; index < 5 - id.toString().length; index++) {
+            user += "0";
+        }
+        user += id;
+        return user;
     }
 
     render(){
@@ -41,7 +49,7 @@ export default class CancelComponent extends Component{
                 <hr/>       
                 <div className='row'>
                     <div className='col-12'>
-                        <span className="column-cancel">Booking ID: </span>
+                        <span className='column-cancel'>Booking ID :</span>
                         {this.state.userId}
                         {this.state.memberType}
                         {this.state.memberPoint}
@@ -66,7 +74,6 @@ export default class CancelComponent extends Component{
                         <div className='column-can'>
                             <div className='right-block'>
                                 <div className='column-check'>Reason for cancellation</div>
-                                <br/>
                                 <br/>
                                 <div className='comment-box'>
                                     <form className='comment-form'>
