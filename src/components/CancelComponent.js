@@ -4,11 +4,20 @@ import "./css/cancel.css"
 export default class CancelComponent extends Component{
     state = {}
     constructor(){
+        const queryParams = new URLSearchParams(window.location.search);
+        const bookingid = queryParams.get("bookingid") != null ? queryParams.get("bookingid") : '';
         super();
         this.state ={
             ctUserID: '',
             mbTypeID: '',
-            ctPoint: 0
+            ctPoint: 0,
+            bookingid: bookingid,
+            checkIn: '',
+            checkOut: '',
+            roomType: '',
+            roomPrice: 0,
+            dcCode: '',
+            usePoint: 0
         };
     }
     
@@ -30,6 +39,21 @@ export default class CancelComponent extends Component{
         .catch(error => {
             console.error('There was an error!', error);
         });
+
+        fetch('http://localhost:3001/review-cancel-info?bookingid=' + this.state.bookingid, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ "CheckIn": data.CheckIn });
+                this.setState({ "CheckOut": data.checkOut });
+                this.setState({ "roomType": data.roomType });
+                this.setState({ "roomPrice": data.roomPrice });
+                this.setState({ "dcCode": data.dcCode });
+                this.setState({ "usePoint": data.usePoint });
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                alert('เกิดข้อผิดพลาดในการเพิ่มข้อมูล');
+            });
     }
     showUserId(id) {
         let user = "CT";
@@ -49,7 +73,7 @@ export default class CancelComponent extends Component{
                 <hr/>       
                 <div className='row'>
                     <div className='col-12'>
-                        <span className='column-cancel'>Booking ID :</span>
+                        <span className='column-cancel'>Booking ID : {this.state.bookingid}</span>
                         {this.state.userId}
                         {this.state.memberType}
                         {this.state.memberPoint}
@@ -60,15 +84,15 @@ export default class CancelComponent extends Component{
                     <div className='row-can'>
                         <div className='column-can'>
                             <div className='left-block'>
-                                <span className='column-check'>Check-in: 27-07-2022</span>
+                                <span className='column-check'>Check-in: {this.state.checkIn}</span>
                                 <span>to</span>
-                                <span className='column-check'>Check-out: 28-07-2022</span>
+                                <span className='column-check'>Check-out: {this.state.checkOut}</span>
                                 <br/>
                                 <br/>
-                                <div className='bg-text-summary-cancel'>1</div>
-                                <div className='bg-text-summary-cancel'>2</div>
-                                <div className='bg-text-summary-cancel'>3</div>
-                                <div className='bg-text-summary-cancel'>4</div>
+                                <div className='bg-text-summary-cancel'>{this.state.roomType}</div>
+                                <div className='bg-text-summary-cancel'>ราคาห้อง {this.state.roomPrice} บาท</div>
+                                <div className='bg-text-summary-cancel'>โค้ดส่วนลด {this.state.dcCode == null ? "None" : this.state.dcCode}</div>
+                                <div className='bg-text-summary-cancel'>ใช้คะแนน {this.state.usePoint} คะแนน</div>
                             </div>
                         </div>
                         <div className='column-can'>
@@ -79,7 +103,7 @@ export default class CancelComponent extends Component{
                                     <form className='comment-form'>
                                         <textarea className='coms' type="text"/>
                                     </form>
-                                    <button className='cancel-button'>CONFIRM CANCEL</button>
+                                    <button className='cancel-button' type='submit'>CONFIRM CANCEL</button>
                                 </div>
                             </div>
                         </div>
