@@ -117,7 +117,7 @@ export default class RoomAdminComponent extends Component {
             <tbody>
               {this.state.room.map((room, index) => (
                 <tr key={index} style={{ verticalAlign: "middle" }}>
-                  <td>{index}</td>
+                  <td>{index + 1}</td>
                   <td style={{ textAlign: "center" }}>{room.RoomID}</td>
                   <td style={{ textAlign: "center" }}>{room.RoomName}</td>
                   <td style={{ textAlign: "center" }}>{room.rStatus}</td>
