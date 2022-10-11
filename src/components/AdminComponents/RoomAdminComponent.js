@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Buffer } from 'buffer';
+import { Buffer } from "buffer";
 // Got ทำ
 //
 //
@@ -41,9 +41,34 @@ export default class RoomAdminComponent extends Component {
   }
 
   readImage(img) {
-    var buffer = new Buffer(img, 'base64');
+    var buffer = new Buffer(img, "base64");
     return buffer;
   }
+
+  clean(roomId) {
+    if (window.confirm("clean room id : " + roomId)) {
+      let raw = JSON.stringify({
+        RoomID: roomId,
+      });
+      console.log(raw);
+      const requestOptions = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: raw,
+      };
+
+      fetch("http://localhost:3001/room/clean", requestOptions)
+        .then((response) => response)
+        .then((data) => {
+          window.location.href = "/room-admin";
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+          alert("เกิดข้อผิดพลาด");
+        });
+    }
+  }
+
   render() {
     return (
       <div className="bg-div" style={{ paddingLeft: "2%", paddingRight: "2%" }}>
@@ -97,14 +122,30 @@ export default class RoomAdminComponent extends Component {
                   <td style={{ textAlign: "center" }}>{room.RoomName}</td>
                   <td style={{ textAlign: "center" }}>{room.rStatus}</td>
                   <td style={{ textAlign: "center" }}>{room.rfloor}</td>
-                  {room.rCleaning == "Y" ? (<td style={{ textAlign: "center" }}>Cleaned</td> ): (<td style={{ textAlign: "center" }}><button className="btn btn-success">Not Clean</button></td>)}
+                  {room.rCleaning === "Y" ? (
+                    <td style={{ textAlign: "center" }}>Cleaned</td>
+                  ) : (
+                    <td style={{ textAlign: "center" }}>
+                      <button
+                        onClick={(e) => this.clean(room.RoomID)}
+                        className="btn btn-success"
+                      >
+                        Not Clean
+                      </button>
+                    </td>
+                  )}
                   <td style={{ textAlign: "center" }}>{room.rCapacity}</td>
                   <td style={{ textAlign: "center" }}>{room.rDefaultPrice}</td>
-                  <td style={{ textAlign: "center" }}><img src={this.readImage(room.rImage)} alt="room" style={{ 'width': '4vw' }} /></td>
+                  <td style={{ textAlign: "center" }}>
+                    <img
+                      src={this.readImage(room.rImage)}
+                      alt="room"
+                      style={{ width: "4vw" }}
+                    />
+                  </td>
                   <td style={{ textAlign: "center" }}>{room.rDescription}</td>
                   <td style={{ textAlign: "center" }}>{room.rRating}</td>
-                  <td style={{ textAlign: "center" }}>
-                  </td>
+                  <td style={{ textAlign: "center" }}></td>
                 </tr>
               ))}
             </tbody>
