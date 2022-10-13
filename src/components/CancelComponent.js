@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import "./css/cancel.css"
+import moment from 'moment';
 
 export default class CancelComponent extends Component{
     state = {}
@@ -12,13 +13,18 @@ export default class CancelComponent extends Component{
             mbTypeID: '',
             ctPoint: 0,
             bookingid: bookingid,
-            checkIn: '',
-            checkOut: '',
-            roomType: '',
-            roomPrice: 0,
-            dcCode: '',
-            usePoint: 0
+            // checkIn: [],
+            // checkOut: [],
+            // roomType: '',
+            // roomPrice: 0,
+            // dcCode: '',
+            // usePoint: 0,
+            // reason: ''
+            room: [],
+            reason: ''
         };
+        this.handleChange = this.handleChange.bind(this);
+        this.edit = this.edit.bind(this);
     }
     
 
@@ -43,16 +49,18 @@ export default class CancelComponent extends Component{
         fetch('http://localhost:3001/review-cancel-info?bookingid=' + this.state.bookingid, requestOptions)
             .then(response => response.json())
             .then(data => {
-                this.setState({ "CheckIn": data.CheckIn });
-                this.setState({ "CheckOut": data.checkOut });
-                this.setState({ "roomType": data.roomType });
-                this.setState({ "roomPrice": data.roomPrice });
-                this.setState({ "dcCode": data.dcCode });
-                this.setState({ "usePoint": data.usePoint });
+                this.setState({ "room": data });
             })
             .catch(error => {
                 console.error('There was an error!', error);
-                alert('เกิดข้อผิดพลาดในการเพิ่มข้อมูล');
+            });
+        fetch('http://localhost:3001/reason?userid='+ this.loginStorage.ctUserId, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ "reason": data });
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
             });
     }
     showUserId(id) {
@@ -62,6 +70,39 @@ export default class CancelComponent extends Component{
         }
         user += id;
         return user;
+    }
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+        this.setState({ "error": "" });
+    }
+
+    edit(e) {
+        e.preventDefault();
+        let loginStorage = JSON.parse(localStorage.getItem('login'));
+
+        let raw = JSON.stringify({
+            "userid": loginStorage.ctUserId,
+            "bookingid": this.state.bookingid,
+            "reason": this.state.reason
+        });
+
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: raw
+        };
+
+        fetch('http://localhost:3001/update-reason-cancel', requestOptions)
+            .then(response => response)
+            .then(data => {
+                alert('อัพเดตข้อมูลสำเร็จ');
+                window.location.href = "/history";
+            })
+            .catch(error => {
+                console.log(error)
+                alert('มีข้อมูลบางอย่างไม่ถูกต้อง กรุณากรอกลองอีกครั้ง');
+            });
     }
 
     render(){
@@ -84,26 +125,25 @@ export default class CancelComponent extends Component{
                     <div className='row-can'>
                         <div className='column-can'>
                             <div className='left-block'>
-                                <span className='column-check'>Check-in: {this.state.checkIn}</span>
+                                <span className='column-check'>Check-in: {moment(this.state.room.checkin).format('DD-MM-YYYY')}</span>
                                 <span>to</span>
-                                <span className='column-check'>Check-out: {this.state.checkOut}</span>
+                                <span className='column-check'>Check-out: {moment(this.state.room.checkout).format('DD-MM-YYYY')}</span>
                                 <br/>
                                 <br/>
-                                <div className='bg-text-summary-cancel'>{this.state.roomType}</div>
-                                <div className='bg-text-summary-cancel'>ราคาห้อง {this.state.roomPrice} บาท</div>
-                                <div className='bg-text-summary-cancel'>โค้ดส่วนลด {this.state.dcCode == null ? "None" : this.state.dcCode}</div>
-                                <div className='bg-text-summary-cancel'>ใช้คะแนน {this.state.usePoint} คะแนน</div>
+                                <div className='bg-text-summary-cancel'>{this.state.room.roomType}</div>
+                                <div className='bg-text-summary-cancel'>ราคาห้อง {this.state.room.roomPrice} บาท</div>
+                                <div className='bg-text-summary-cancel'>โค้ดส่วนลด {this.state.room.dcCode == null ? "None" : this.state.room.dcCode}</div>
+                                <div className='bg-text-summary-cancel'>ใช้คะแนน {this.state.room.usePoint} คะแนน</div>
                             </div>
                         </div>
                         <div className='column-can'>
-                            <div className='right-block'>
-                                <div className='column-check'>Reason for cancellation</div>
-                                <br/>
+                            <div className='right-block'>                                 
                                 <div className='comment-box'>
-                                    <form className='comment-form'>
-                                        <textarea className='coms' type="text"/>
+                                    <form className='comment-form' onSubmit={this.edit}>
+                                        <label htmlFor="reason" className="column-check">Reason for cancellation</label>
+                                        <textarea className='coms' type="text" name='reason' onChange={this.handleChange}/>
+                                        <button className='cancel-button' type='submit'>CONFIRM CANCEL</button>
                                     </form>
-                                    <button className='cancel-button' type='submit'>CONFIRM CANCEL</button>
                                 </div>
                             </div>
                         </div>

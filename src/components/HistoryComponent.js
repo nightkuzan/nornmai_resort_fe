@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import "./css/history.css";
+import moment from 'moment';
 
 export default class HistoryComponent extends Component{
     state = {}
@@ -123,9 +124,9 @@ export default class HistoryComponent extends Component{
                         <th scope="row">{index+1}</th>
                         <td style={{textAlign: "center"}}>{room.bookingID}</td>
                         <td style={{textAlign: "center"}}>{room.RoomTypeName}</td>
-                        <td style={{textAlign: "center"}}>{room.bkCheckInDate}</td>
+                        <td style={{textAlign: "center"}}>{moment(room.bkCheckInDate).format('DD-MM-YYYY')}</td>
                         <td style={{textAlign: "center"}}>{room.rfloor}</td>
-                        <td style={{textAlign: "center"}}>{room.bkLeaveDate}</td>
+                        <td style={{textAlign: "center"}}>{moment(room.bkLeaveDate).format('DD-MM-YYYY')}</td>
                         <td style={{textAlign: "center"}}>{room.dcCode}</td>
                         <td style={{textAlign: "center"}}>{room.bkpointDiscount}</td>
                         <td style={{textAlign: "center"}}>{room.bkTotalPrice}</td>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import "./css/review.css"
 import "./css/cancel.css"
+import moment from 'moment';
 
 export default class ReviewComponent extends Component {
     state = {}
@@ -13,12 +14,14 @@ export default class ReviewComponent extends Component {
             mbTypeID: '',
             ctPoint: 0,
             bookingid: bookingid,
-            checkIn: '',
-            checkOut: '',
-            roomType: '',
-            roomPrice: 0,
-            dcCode: '',
-            usePoint: 0
+            // checkIn: '',
+            // checkOut: '',
+            // roomType: '',
+            // roomPrice: 0,
+            // dcCode: '',
+            // usePoint: 0
+            room: [],
+            review: ''
         };
     }
     
@@ -43,12 +46,7 @@ export default class ReviewComponent extends Component {
         fetch('http://localhost:3001/review-cancel-info?bookingid=' + this.state.bookingid, requestOptions)
         .then(response => response.json())
         .then(data => {
-            this.setState({ "CheckIn": data.CheckIn });
-            this.setState({ "CheckOut": data.checkOut });
-            this.setState({ "roomType": data.roomType });
-            this.setState({ "roomPrice": data.roomPrice });
-            this.setState({ "dcCode": data.dcCode });
-            this.setState({ "usePoint": data.usePoint });
+            this.setState({ "room": data });
         })
         .catch(error => {
             console.error('There was an error!', error);
@@ -84,15 +82,15 @@ export default class ReviewComponent extends Component {
             <div className='row-can'>
                 <div className='column-can'>
                     <div className='left-block'>
-                        <span className='column-check'>Check-in: {this.state.checkIn}</span>
+                        <span className='column-check'>Check-in: {moment(this.state.room.checkin).format('DD-MM-YYYY')}</span>
                         <span>to</span>
-                        <span className='column-check'>Check-out: {this.state.checkOut}</span>
+                        <span className='column-check'>Check-out: {moment(this.state.room.checkout).format('DD-MM-YYYY')}</span>
                         <br/>
                         <br/>
-                        <div className='bg-text-summary-room'>{this.state.roomType}</div>
-                        <div className='bg-text-summary-cancel'>ราคาห้อง {this.state.roomPrice} บาท</div>
-                        <div className='bg-text-summary-cancel'>โค๊ดส่วนลด {this.state.dcCode == null ? "None" : this.state.dcCode}</div>
-                        <div className='bg-text-summary-cancel'>ใช้คะแนน {this.state.usePoint} คะแนน</div>
+                        <div className='bg-text-summary-room'>{this.state.room.roomType}</div>
+                        <div className='bg-text-summary-cancel'>ราคาห้อง {this.state.room.roomPrice} บาท</div>
+                        <div className='bg-text-summary-cancel'>โค๊ดส่วนลด {this.state.room.dcCode == null ? "None" : this.state.dcCode}</div>
+                        <div className='bg-text-summary-cancel'>ใช้คะแนน {this.state.room.usePoint} คะแนน</div>
                     </div>
                 </div>
                 <div className='column-can'>
@@ -101,24 +99,24 @@ export default class ReviewComponent extends Component {
                         <br/>
                         <div className='comment-box'>
                             <form className='comment-form'>
-                                <textarea className='coms-review' type="text"/>
+                                <textarea className='coms-review' type="text" name='review' onChange={this.handleChange} required/>                       
+                                <div className='rev'>Rating :</div>
+                                <span>
+                                    <div className='rate'>
+                                        <input type="radio" id="star5" name="rate" value="5" />
+                                        <label for="star5" title="text">5 stars</label>
+                                        <input type="radio" id="star4" name="rate" value="4" />
+                                        <label for="star4" title="text">4 stars</label>
+                                        <input type="radio" id="star3" name="rate" value="3" />
+                                        <label for="star3" title="text">3 stars</label>
+                                        <input type="radio" id="star2" name="rate" value="2" />
+                                        <label for="star2" title="text">2 stars</label>
+                                        <input type="radio" id="star1" name="rate" value="1" />
+                                        <label for="star1" title="text">1 star</label>
+                                    </div>
+                                </span>
+                                <button className='review-button' type='submit'>REVIEW</button>
                             </form>
-                            <div className='rev'>Rating :</div>
-                            <span>
-                                <div className='rate'>
-                                    <input type="radio" id="star5" name="rate" value="5" />
-                                    <label for="star5" title="text">5 stars</label>
-                                    <input type="radio" id="star4" name="rate" value="4" />
-                                    <label for="star4" title="text">4 stars</label>
-                                    <input type="radio" id="star3" name="rate" value="3" />
-                                    <label for="star3" title="text">3 stars</label>
-                                    <input type="radio" id="star2" name="rate" value="2" />
-                                    <label for="star2" title="text">2 stars</label>
-                                    <input type="radio" id="star1" name="rate" value="1" />
-                                    <label for="star1" title="text">1 star</label>
-                                </div>
-                            </span>
-                            <button className='review-button'>REVIEW</button>
                         </div>
                     </div>
                 </div>
