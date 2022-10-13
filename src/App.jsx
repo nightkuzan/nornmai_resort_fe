@@ -23,6 +23,11 @@ import StaffAddComponent from './components/AdminComponents/StaffAddComponent';
 import RoomAdminComponent from './components/AdminComponents/RoomAdminComponent';
 import BookingInfoComponent from './components/AdminComponents/BookingInfoComponent';
 import AdminAllBooking from './components/AdminComponents/AdminAllBooking';
+import DiscountComponent from './components/AdminComponents/DiscountComponent';
+import DiscountAddComponent from './components/AdminComponents/DiscountAddComponent';
+import CheckInComponent from './components/AdminComponents/CheckInComponent';
+import CheckOutComponent from './components/AdminComponents/CheckOutComponent';
+import CheckComponent from './components/AdminComponents/CheckComponent';
 
 class App extends Component {
   loginStorage = '';
@@ -108,6 +113,11 @@ class App extends Component {
             <Route path="/staff-edit" element={<StaffEditComponent />} />
             <Route path="/staff-add" element={<StaffAddComponent />} /> 
             <Route path="/admin" element={<AdminAllBooking />} />
+            <Route path="/discount" element={<DiscountComponent />} />
+            <Route path="/discount-add" element={<DiscountAddComponent />} />
+            <Route path="/check" element={<CheckComponent />} />
+            <Route path="/check-in" element={<CheckInComponent />} />
+            <Route path="/check-out" element={<CheckOutComponent />} />
           </Routes>
         </BrowserRouter>
       </div>

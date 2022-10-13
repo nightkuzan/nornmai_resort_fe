@@ -24,7 +24,9 @@ class ReservbookingCompenent extends Component {
             "saveDcPoint": 0,
             "dcPointPrice": 0,
             "sumPrice": 0,
-            "date" : 0
+            "date" : 0,
+            "image": '',
+
         }
         this.handleChange = this.handleChange.bind(this);
         this.getdiscount = this.getdiscount.bind(this);
@@ -106,6 +108,8 @@ class ReservbookingCompenent extends Component {
                 this.setState({ 'dcCodePrice' : this.state.sumPrice*data.dcRate/100 });
             })
             .catch(error => {
+                alert('ไม่พบรหัสส่วนลด');
+                this.setState({ 'dcCode': '' });
                 this.setState({ 'dcRate': 0 });
                 this.setState({ 'saveDcCode': '' })
                 this.setState({ 'dcCodePrice' : 0 });
@@ -149,6 +153,21 @@ class ReservbookingCompenent extends Component {
                 window.location.href = "/reserve";
             });
     }
+    uploadImage(e) {
+        e.preventDefault();
+        const data = new FormData();
+        data.append('file', this.uploadInput.files[0]);
+        data.append('filename', this.fileName.value);
+        fetch('http://localhost:3001/upload', {
+            method: 'POST',
+            body: data,
+        }).then((response) => {
+            response.json().then((body) => {
+                this.setState({ 'image': body.file });
+            });
+        });
+    }
+
 
     render() {
         return (
@@ -186,6 +205,7 @@ class ReservbookingCompenent extends Component {
                                 <button className="btn form-control dc-btn">USE POINT</button>
                             </form>
                         </span>
+                            
                     </div>
                 </div> : ''}
 
@@ -218,8 +238,20 @@ class ReservbookingCompenent extends Component {
                 </span>
                 <span className="bg-text-summary-final">
                     <div className="row">
-                        <div className="col-6 bg-text-summary-left">รวมทั้งสิ้น</div>
+                        <div className="col-6 bg-text-summa ry-left">รวมทั้งสิ้น</div>
                         <div className="col-6 bg-text-summary-right">{this.state.sumPrice - this.state.dcCodePrice - this.state.dcPointPrice} บาท</div>
+                    </div>
+                </span>
+                <span className="bg-text-summary-final">
+                    <div className="row">
+                        <div className="col-6 bg-text-summa ry-left">ธนาคาร ไทยพานิชญ์ เลขบัญชี 667-440-6414  ชื่อบัญชี เอกฤทธิ์ สุฤทธิ์</div>
+                        {/* input image */}
+                        <div className="col-6 bg-text-summary-right">
+                            <form onSubmit={this.uploadImage}>
+                                <p>อัพโหลดหลักฐานการโอนเงิน</p>
+                                <input type="file" className="form-control" style={{ 'width': '40%', 'display': 'inline' }} onChange={this.handleImage} />
+                            </form>
+                        </div>
                     </div>
                 </span>
                 <button className="btn form-control dc-btn-summary" onClick={this.reserveroom}>RESERVE</button>

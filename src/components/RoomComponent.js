@@ -9,7 +9,7 @@ class RoomComponent extends Component {
             "room": []
         }
     }
-
+    
     componentDidMount() {
         const requestOptions = {
             method: 'GET',
@@ -20,7 +20,6 @@ class RoomComponent extends Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({ 'room': data });
-                console.log(data);
             })
             .catch(error => {
                 console.error('There was an error!', error);
