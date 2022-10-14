@@ -13,11 +13,12 @@ export default class PaymentUpdateComponent extends Component {
       booking: {},
       bookingid: bookingid,
       status: "",
-      statusList: ["DEPOSIT PAID", "FULLY PAID"],
+      statusList: ["NOT PAID", "DEPOSIT PAID", "FULLY PAID"],
       min: moment(new Date()).format("YYYY-MM-DD"),
       date: moment(new Date()).format("YYYY-MM-DD"),
     };
     this.handleChange = this.handleChange.bind(this);
+    this.update = this.update.bind(this);
   }
 
   componentDidMount() {
@@ -46,6 +47,9 @@ export default class PaymentUpdateComponent extends Component {
           console.log(this.state);
         });
         this.setState({ status: data.status });
+        if(data.status === "DEPOSIT PAID") {
+            this.setState({ statusList : ["DEPOSIT PAID", "FULLY PAID"]})
+        }
       })
       .catch((error) => {
         console.error("There was an error!", error);
@@ -72,6 +76,33 @@ export default class PaymentUpdateComponent extends Component {
     const { name, value } = e.target;
     this.setState({ [name]: value });
     this.setState({ error: "" });
+    console.log(this.state);
+  }
+
+  update(e) {
+    e.preventDefault();
+    // let login = JSON.parse(localStorage.getItem("login-admin"));
+    let raw = JSON.stringify({
+      bkStatus: this.state.status,
+      bookingid: this.state.bookingid,
+    });
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: raw,
+    };
+
+    fetch("http://localhost:3001/payment/update", requestOptions)
+      .then((response) => response)
+      .then((data) => {
+        alert("อัพเดตข้อมูลสำเร็จ");
+        console.log(raw);
+        window.location.href = "/payment";
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("มีข้อมูลบางอย่างไม่ถูกต้อง กรุณากรอกข้อมูลใหม่อีกครั้ง");
+      });
   }
 
   render() {
@@ -145,7 +176,7 @@ export default class PaymentUpdateComponent extends Component {
                       <span>{this.state.booking.status}</span>
                     </div>
                     <br />
-                    <form>
+                    <form onSubmit={this.update}>
                       <span>PAYMENT STATUS:</span>
                       <select
                         className="form-select"
