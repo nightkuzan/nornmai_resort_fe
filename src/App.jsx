@@ -28,7 +28,7 @@ import DiscountAddComponent from './components/AdminComponents/DiscountAddCompon
 import CheckInComponent from './components/AdminComponents/CheckInComponent';
 import CheckOutComponent from './components/AdminComponents/CheckOutComponent';
 import CheckComponent from './components/AdminComponents/CheckComponent';
-
+import PaymentUpdateComponent from './components/AdminComponents/PaymentUpdateComponent';
 class App extends Component {
   loginStorage = '';
   state = {};
@@ -109,6 +109,7 @@ class App extends Component {
             <Route path="/admin/login" element={<AdminLoginComponent />} />
             <Route path="/room-admin" element={<RoomAdminComponent />} />
             <Route path="/payment" element={<BookingInfoComponent />} />
+            <Route path="/payment-update" element={<PaymentUpdateComponent/>} />
             <Route path="/staff" element={<StaffComponent />} />
             <Route path="/staff-edit" element={<StaffEditComponent />} />
             <Route path="/staff-add" element={<StaffAddComponent />} /> 

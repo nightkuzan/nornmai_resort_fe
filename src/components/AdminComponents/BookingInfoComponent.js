@@ -34,6 +34,24 @@ export default class BookingInfoComponent extends Component {
       });
   }
 
+  showUserId(id) {
+    let user = "CT";
+    for (let index = 0; index < 5 - id.toString().length; index++) {
+      user += "0";
+    }
+    user += id;
+    return user;
+  }
+
+  showBookingId(id) {
+    let user = "B";
+    for (let index = 0; index < 6 - id.toString().length; index++) {
+      user += "0";
+    }
+    user += id;
+    return user;
+  }
+
   render() {
     return (
       <div className="bg-div" style={{ paddingLeft: "2%", paddingRight: "2%" }}>
@@ -95,11 +113,11 @@ export default class BookingInfoComponent extends Component {
               {this.state.booking.map((booking, index) => (
                 <tr key={index} style={{ verticalAlign: "middle" }}>
                   <td>{index + 1}</td>
-                  <td style={{ textAlign: "center" }}>{booking.cid}</td>
+                  <td style={{ textAlign: "center" }}>{this.showUserId(booking.cid)}</td>
                   <td style={{ textAlign: "center" }}>
                     {booking.fname + " " + booking.lname}
                   </td>
-                  <td style={{ textAlign: "center" }}>{booking.bookid}</td>
+                  <td style={{ textAlign: "center" }}>{this.showBookingId(booking.bookid)}</td>
                   <td style={{ textAlign: "center" }}>{booking.rtname}</td>
                   <td style={{ textAlign: "center" }}>
                     {moment(booking.bcheckin).format("DD-MM-YYYY")}
@@ -124,7 +142,9 @@ export default class BookingInfoComponent extends Component {
                   <td style={{ textAlign: "center" }}>{booking.bkstatus}</td>
                   <td>
                     {booking.bkstatus !== "FULLY PAID" ? (
-                      <button className="btn btn-success">UPDATE</button>
+                      <a href={"/payment-update?bookingid=" + booking.bookid}>
+                        <button className="btn btn-success">UPDATE</button>
+                      </a>
                     ) : (
                       "-"
                     )}

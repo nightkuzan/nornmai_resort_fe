@@ -1,8 +1,8 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import moment from "moment";
 import { Buffer } from "buffer";
 
-class CheckInComponent extends Component {
+export default class PaymentUpdateComponent extends Component {
   state = {};
   constructor() {
     super();
@@ -10,40 +10,42 @@ class CheckInComponent extends Component {
     const bookingid =
       queryParams.get("bookingid") != null ? queryParams.get("bookingid") : "";
     this.state = {
-      book: {
-        roomId: [],
-      },
+      booking: {},
       bookingid: bookingid,
-      bookingidtxt: this.showBookingId(bookingid),
-      ctNum: 1,
-      name: "",
-      room: "",
-      date: "",
+      status: "",
+      statusList: ["DEPOSIT PAID", "FULLY PAID"],
+      min: moment(new Date()).format("YYYY-MM-DD"),
+      date: moment(new Date()).format("YYYY-MM-DD"),
     };
     this.handleChange = this.handleChange.bind(this);
-    this.update = this.update.bind(this);
   }
 
   componentDidMount() {
     this.loginAdminStorage = JSON.parse(localStorage.getItem("login-admin"));
-    if (this.loginAdminStorage == null) window.location.href = "/";
+    if (
+      this.loginAdminStorage == null ||
+      this.loginAdminStorage.pName !== "Manager"
+    )
+      window.location.href = "/";
 
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     };
+
     fetch(
-      "http://localhost:3001/check-info?bookingid=" + this.state.bookingid,
+      "http://localhost:3001/payment-update?bookingid=" + this.state.bookingid,
       requestOptions
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        this.setState({ book: data });
-        this.setState({ room: data.roomId[0] });
+        this.setState({ booking: data }, function () {
+          console.log(this.state.booking);
+        });
         this.setState({ image: this.readImage(data.image) }, function () {
           console.log(this.state);
         });
+        this.setState({ status: data.status });
       })
       .catch((error) => {
         console.error("There was an error!", error);
@@ -51,13 +53,10 @@ class CheckInComponent extends Component {
       });
   }
 
-  showUserId(id) {
-    let user = "CT";
-    for (let index = 0; index < 5 - id.toString().length; index++) {
-      user += "0";
-    }
-    user += id;
-    return user;
+  readImage(img) {
+    console.log(img);
+    var buffer = new Buffer(img, "base64");
+    return buffer;
   }
 
   showBookingId(id) {
@@ -69,46 +68,10 @@ class CheckInComponent extends Component {
     return user;
   }
 
-  readImage(img) {
-    console.log(img);
-    var buffer = new Buffer(img, "base64");
-    return buffer;
-  }
-
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
     this.setState({ error: "" });
-  }
-
-  update(e) {
-    e.preventDefault();
-    let login = JSON.parse(localStorage.getItem("login-admin"));
-
-    let raw = JSON.stringify({
-      bookingid: this.state.bookingid,
-      cInpeople: this.state.ctNum,
-      cName: this.state.name,
-      staffid: login.StaffID,
-      room: this.state.room,
-    });
-
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: raw,
-    };
-
-    fetch("http://localhost:3001/check-in", requestOptions)
-      .then((response) => response)
-      .then((data) => {
-        alert("อัพเดตข้อมูลสำเร็จ");
-        window.location.href = "/check";
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("มีข้อมูลบางอย่างไม่ถูกต้อง กรุณากรอกข้อมูลใหม่อีกครั้ง");
-      });
   }
 
   render() {
@@ -118,12 +81,12 @@ class CheckInComponent extends Component {
         style={{ paddingLeft: "10%", paddingRight: "10%" }}
       >
         <div className="header-topic">
-          <span className="header-reserve">CHECK-IN</span>
+          <span className="header-reserve">PAYMENT</span>
           <hr />
         </div>
         <div className="row">
           <div className="card">
-            <div className="card-body">
+            <div className="card-body" style={{ width: "100%" }}>
               <div className="row">
                 <span className="bg-text-info-2">
                   BOOKING ID : {this.showBookingId(this.state.bookingid)}
@@ -132,7 +95,7 @@ class CheckInComponent extends Component {
               <div className="row">
                 <span className="bg-text-info">
                   Check-in :{" "}
-                  {moment(this.state.book.checkin).format("DD-MM-YYYY")}{" "}
+                  {moment(this.state.booking.bcheckin).format("DD-MM-YYYY")}{" "}
                 </span>
                 <span
                   className="bg-text-info"
@@ -143,7 +106,7 @@ class CheckInComponent extends Component {
                 <span className="bg-text-info">
                   {" "}
                   Check-out :{" "}
-                  {moment(this.state.book.checkout).format("DD-MM-YYYY")}
+                  {moment(this.state.booking.bcheckout).format("DD-MM-YYYY")}
                 </span>
               </div>
               <br />
@@ -157,46 +120,63 @@ class CheckInComponent extends Component {
                     />
                   </div>
                   <div className="col-xl-6 col-lg-12">
-                    <form onSubmit={this.update}>
-                      <span>NAME CUSTOMER : </span>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="name"
-                        value={this.state.name}
-                        onChange={this.handleChange}
-                        required
-                      />
-                      <span>NUMBER OF CUSTOMER : </span>
-                      <input
-                        type="number"
-                        min="1"
-                        className="form-control"
-                        name="ctNum"
-                        value={this.state.ctNum}
-                        onChange={this.handleChange}
-                        required
-                      />
-                      <span>ROOM ID : </span>
+                    <div
+                      className="bg-text-summary-cancel"
+                      style={{ fontSize: "100%", width: "100%" }}
+                    >
+                      <span>PRICE:</span>
+                      <span>&nbsp;</span>
+                      <span>{this.state.booking.price + " BAHT"}</span>
+                    </div>
+                    <div
+                      className="bg-text-summary-cancel"
+                      style={{ fontSize: "100%" }}
+                    >
+                      <span>DEPOSIT:</span>
+                      <span>&nbsp;</span>
+                      <span>{this.state.booking.price / 2 + " BAHT"}</span>
+                    </div>
+                    <div
+                      className="bg-text-summary-cancel"
+                      style={{ fontSize: "100%" }}
+                    >
+                      <span>STATUS:</span>
+                      <span>&nbsp;</span>
+                      <span>{this.state.booking.status}</span>
+                    </div>
+                    <br />
+                    <form>
+                      <span>PAYMENT STATUS:</span>
                       <select
                         className="form-select"
-                        name="room"
-                        value={this.state.room}
+                        name="status"
+                        value={this.state.status}
                         onChange={this.handleChange}
                       >
-                        {this.state.book.roomId.map((room, index) => (
-                          <option value={room} key={index}>
-                            {room}
+                        {this.state.statusList.map((stat, index) => (
+                          <option value={stat} key={index}>
+                            {stat}
                           </option>
                         ))}
                       </select>
+                      <span>PAYMENT DATE:</span>
+                      <input
+                        type="date"
+                        name="date"
+                        min={this.state.min}
+                        max="2025-12-31"
+                        value={this.state.date}
+                        onChange={this.handleChange}
+                        className="form-control"
+                        required
+                      />
                       <br />
                       <button
                         type="submit"
                         style={{ marginTop: "10px" }}
                         className="btn btn-success form-control"
                       >
-                        CHECK-IN
+                        ACCEPT
                       </button>
                     </form>
                   </div>
@@ -207,10 +187,7 @@ class CheckInComponent extends Component {
             </div>
           </div>
         </div>
-        <br />
       </div>
     );
   }
 }
-
-export default CheckInComponent;
