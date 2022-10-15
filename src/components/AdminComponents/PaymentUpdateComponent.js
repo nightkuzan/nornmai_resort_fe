@@ -13,9 +13,10 @@ export default class PaymentUpdateComponent extends Component {
       booking: {},
       bookingid: bookingid,
       status: "",
-      statusList: ["NOT PAID", "DEPOSIT PAID", "FULLY PAID"],
+      statusList: ["DEPOSIT PAID", "FULLY PAID"],
       min: moment(new Date()).format("YYYY-MM-DD"),
       date: moment(new Date()).format("YYYY-MM-DD"),
+      price: 0,
     };
     this.handleChange = this.handleChange.bind(this);
     this.update = this.update.bind(this);
@@ -46,9 +47,14 @@ export default class PaymentUpdateComponent extends Component {
         this.setState({ image: this.readImage(data.image) }, function () {
           console.log(this.state);
         });
-        this.setState({ status: data.status });
-        if(data.status === "DEPOSIT PAID") {
-            this.setState({ statusList : ["DEPOSIT PAID", "FULLY PAID"]})
+        console.log(this.state.booking.status);
+        if (this.state.booking.status === "DEPOSIT PAID") {
+          this.setState({ statusList: ["FULLY PAID"] });
+          this.setState({ status: "FULLY PAID" });
+          this.setState({ price: data.price / 2 });
+        } else {
+          this.setState({ status: "DEPOSIT PAID" });
+          this.setState({ price: data.price });
         }
       })
       .catch((error) => {
@@ -81,13 +87,20 @@ export default class PaymentUpdateComponent extends Component {
 
   update(e) {
     e.preventDefault();
-    // let login = JSON.parse(localStorage.getItem("login-admin"));
+    let login = JSON.parse(localStorage.getItem("login-admin"));
+    let price = this.state.price;
+    if (this.state.status === "DEPOSIT PAID") {
+      price = price / 2;
+    }
     let raw = JSON.stringify({
       bkStatus: this.state.status,
       bookingid: this.state.bookingid,
+      price: price,
+      date: this.state.date,
+      staffid: login.StaffID,
     });
     const requestOptions = {
-      method: "PUT",
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: raw,
     };
@@ -101,7 +114,7 @@ export default class PaymentUpdateComponent extends Component {
       })
       .catch((error) => {
         console.log(error);
-        alert("มีข้อมูลบางอย่างไม่ถูกต้อง กรุณากรอกข้อมูลใหม่อีกครั้ง");
+        alert("มีข้อมูลบางอย่างไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง");
       });
   }
 
