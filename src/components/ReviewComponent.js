@@ -21,8 +21,11 @@ export default class ReviewComponent extends Component {
             // dcCode: '',
             // usePoint: 0
             room: [],
-            review: ''
+            review: '',
+            rate: 0
         };
+        this.handleChange = this.handleChange.bind(this);
+        this.reviewroom = this.reviewroom.bind(this);
     }
     
     componentDidMount() {
@@ -61,6 +64,42 @@ export default class ReviewComponent extends Component {
         user += id;
         return user;
     }
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+        this.setState({ "error": "" });
+    }
+
+    reviewroom(e) {
+        e.preventDefault();
+        let loginStorage = JSON.parse(localStorage.getItem('login'));
+        let raw = JSON.stringify({
+            "userid": loginStorage.ctUserId,
+            "bookingid" : this.state.bookingid,
+            "review": this.state.review,
+            "rate": this.state.rate,
+            "rvtime": this.state.rvtime,
+            "roomid": this.state.room.roomid
+            
+        });
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: raw
+        };
+
+        fetch('http://localhost:3001/review-room', requestOptions)
+            .then(response => response)
+            .then(data => {
+                alert('รีวิวห้องพักสำเร็จ');
+                window.location.href = "/history";
+            })
+            .catch(error => {
+                alert('มีข้อมูลบางอย่างไม่ถูกต้อง กรุณาทำการจองใหม่อีกครั้ง');
+                window.location.href = "/history";
+            });
+    }
 
   render() {
     return (
@@ -89,7 +128,7 @@ export default class ReviewComponent extends Component {
                         <br/>
                         <div className='bg-text-summary-room'>{this.state.room.roomType}</div>
                         <div className='bg-text-summary-cancel'>ราคาห้อง {this.state.room.roomPrice} บาท</div>
-                        <div className='bg-text-summary-cancel'>โค๊ดส่วนลด {this.state.room.dcCode == null ? "None" : this.state.dcCode}</div>
+                        <div className='bg-text-summary-cancel'>โค๊ดส่วนลด {this.state.room.dcCode}</div>
                         <div className='bg-text-summary-cancel'>ใช้คะแนน {this.state.room.usePoint} คะแนน</div>
                     </div>
                 </div>
@@ -98,20 +137,20 @@ export default class ReviewComponent extends Component {
                         <div className='column-check'>Review</div>
                         <br/>
                         <div className='comment-box'>
-                            <form className='comment-form'>
-                                <textarea className='coms-review' type="text" name='review' onChange={this.handleChange} required/>                       
+                            <form className='comment-form' onSubmit={this.reviewroom}>
+                                <textarea className='coms-review' type="text" name='review' onChange={this.handleChange}/>                       
                                 <div className='rev'>Rating :</div>
                                 <span>
                                     <div className='rate'>
-                                        <input type="radio" id="star5" name="rate" value="5" />
+                                        <input type="radio" id="star5" name="rate" onChange={this.handleChange} value="5" />
                                         <label for="star5" title="text">5 stars</label>
-                                        <input type="radio" id="star4" name="rate" value="4" />
+                                        <input type="radio" id="star4" name="rate" onChange={this.handleChange} value="4" />
                                         <label for="star4" title="text">4 stars</label>
-                                        <input type="radio" id="star3" name="rate" value="3" />
+                                        <input type="radio" id="star3" name="rate" onChange={this.handleChange} value="3" />
                                         <label for="star3" title="text">3 stars</label>
-                                        <input type="radio" id="star2" name="rate" value="2" />
+                                        <input type="radio" id="star2" name="rate" onChange={this.handleChange} value="2" />
                                         <label for="star2" title="text">2 stars</label>
-                                        <input type="radio" id="star1" name="rate" value="1" />
+                                        <input type="radio" id="star1" name="rate" onChange={this.handleChange} value="1" />
                                         <label for="star1" title="text">1 star</label>
                                     </div>
                                 </span>
