@@ -10,26 +10,11 @@ class ReviewComponent extends Component {
         this.state = {
             room: {},
             bookingid: bookingid,
-<<<<<<< HEAD
             review: '',
             star: 5
         };
         this.handleChange = this.handleChange.bind(this);
         this.review = this.review.bind(this);
-=======
-            // checkIn: '',
-            // checkOut: '',
-            // roomType: '',
-            // roomPrice: 0,
-            // dcCode: '',
-            // usePoint: 0
-            room: [],
-            review: '',
-            rate: 0
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.reviewroom = this.reviewroom.bind(this);
->>>>>>> refs/remotes/origin/main
     }
 
     componentDidMount() {
@@ -73,44 +58,7 @@ class ReviewComponent extends Component {
         user += id;
         return user;
     }
-    handleChange(e) {
-        const { name, value } = e.target;
-        this.setState({ [name]: value });
-        this.setState({ "error": "" });
-    }
 
-    reviewroom(e) {
-        e.preventDefault();
-        let loginStorage = JSON.parse(localStorage.getItem('login'));
-        let raw = JSON.stringify({
-            "userid": loginStorage.ctUserId,
-            "bookingid" : this.state.bookingid,
-            "review": this.state.review,
-            "rate": this.state.rate,
-            "rvtime": this.state.rvtime,
-            "roomid": this.state.room.roomid
-            
-        });
-
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: raw
-        };
-
-        fetch('http://localhost:3001/review-room', requestOptions)
-            .then(response => response)
-            .then(data => {
-                alert('รีวิวห้องพักสำเร็จ');
-                window.location.href = "/history";
-            })
-            .catch(error => {
-                alert('มีข้อมูลบางอย่างไม่ถูกต้อง กรุณาทำการจองใหม่อีกครั้ง');
-                window.location.href = "/history";
-            });
-    }
-
-<<<<<<< HEAD
     showBookingId(id) {
         let user = "B";
         for (let index = 0; index < 6 - id.toString().length; index++) {
@@ -218,59 +166,6 @@ class ReviewComponent extends Component {
                                 <form onSubmit={this.review}>
                                     <div className="form-group">
                                         <textarea className="form-control" name="review" value={this.state.review} onChange={this.handleChange} rows="3" required></textarea>
-=======
-  render() {
-    return (
-        <div className='container'>
-        <div className='header-his'>
-            <header>REVIEW</header>
-        </div>
-        <hr/>       
-        <div className='row'>
-            <div className='col-12'>
-                <span className="column-cancel">Booking ID: {this.state.bookingid}</span>
-                {this.state.userId}
-                {this.state.memberType}
-                {this.state.memberPoint}
-            </div>
-        </div>
-        <br/>
-        <div className='layout-review'>
-            <div className='row-can'>
-                <div className='column-can'>
-                    <div className='left-block'>
-                        <span className='column-check'>Check-in: {moment(this.state.room.checkin).format('DD-MM-YYYY')}</span>
-                        <span>to</span>
-                        <span className='column-check'>Check-out: {moment(this.state.room.checkout).format('DD-MM-YYYY')}</span>
-                        <br/>
-                        <br/>
-                        <div className='bg-text-summary-room'>{this.state.room.roomType}</div>
-                        <div className='bg-text-summary-cancel'>ราคาห้อง {this.state.room.roomPrice} บาท</div>
-                        <div className='bg-text-summary-cancel'>โค๊ดส่วนลด {this.state.room.dcCode}</div>
-                        <div className='bg-text-summary-cancel'>ใช้คะแนน {this.state.room.usePoint} คะแนน</div>
-                    </div>
-                </div>
-                <div className='column-can'>
-                    <div className='right-block'>
-                        <div className='column-check'>Review</div>
-                        <br/>
-                        <div className='comment-box'>
-                            <form className='comment-form' onSubmit={this.reviewroom}>
-                                <textarea className='coms-review' type="text" name='review' onChange={this.handleChange}/>                       
-                                <div className='rev'>Rating :</div>
-                                <span>
-                                    <div className='rate'>
-                                        <input type="radio" id="star5" name="rate" onChange={this.handleChange} value="5" />
-                                        <label for="star5" title="text">5 stars</label>
-                                        <input type="radio" id="star4" name="rate" onChange={this.handleChange} value="4" />
-                                        <label for="star4" title="text">4 stars</label>
-                                        <input type="radio" id="star3" name="rate" onChange={this.handleChange} value="3" />
-                                        <label for="star3" title="text">3 stars</label>
-                                        <input type="radio" id="star2" name="rate" onChange={this.handleChange} value="2" />
-                                        <label for="star2" title="text">2 stars</label>
-                                        <input type="radio" id="star1" name="rate" onChange={this.handleChange} value="1" />
-                                        <label for="star1" title="text">1 star</label>
->>>>>>> refs/remotes/origin/main
                                     </div>
 
                                     <span>Rating : &nbsp; </span>
