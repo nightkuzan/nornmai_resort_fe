@@ -54,9 +54,9 @@ export default class AdminAllBooking extends Component {
 
     render() {
         return (
-            <div className='container'>
-                <div className='header-his'>
-                    <header>ALL BOOKING</header>
+            <div className="bg-div" style={{ 'paddingLeft': '10%', 'paddingRight': '10%' }}>
+                <div className="header-topic">
+                <span className="header-reserve">ALL BOOKING</span>
                 </div>
                 <br />
                 <table className="table">
