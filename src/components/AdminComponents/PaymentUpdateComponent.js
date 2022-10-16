@@ -51,7 +51,7 @@ export default class PaymentUpdateComponent extends Component {
         if (this.state.booking.status === "DEPOSIT PAID") {
           this.setState({ statusList: ["FULLY PAID"] });
           this.setState({ status: "FULLY PAID" });
-          this.setState({ price: data.price / 2 });
+          this.setState({ price: (data.price * 60) / 100 });
         } else {
           this.setState({ status: "DEPOSIT PAID" });
           this.setState({ price: data.price });
@@ -90,7 +90,7 @@ export default class PaymentUpdateComponent extends Component {
     let login = JSON.parse(localStorage.getItem("login-admin"));
     let price = this.state.price;
     if (this.state.status === "DEPOSIT PAID") {
-      price = price / 2;
+      price = (price * 40) / 100;
     }
     let raw = JSON.stringify({
       bkStatus: this.state.status,
@@ -178,7 +178,9 @@ export default class PaymentUpdateComponent extends Component {
                     >
                       <span>DEPOSIT:</span>
                       <span>&nbsp;</span>
-                      <span>{this.state.booking.price / 2 + " BAHT"}</span>
+                      <span>
+                        {(this.state.booking.price * 40) / 100 + " BAHT"}
+                      </span>
                     </div>
                     <div
                       className="bg-text-summary-cancel"
