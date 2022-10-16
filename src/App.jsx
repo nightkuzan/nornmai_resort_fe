@@ -29,6 +29,7 @@ import CheckInComponent from './components/AdminComponents/CheckInComponent';
 import CheckOutComponent from './components/AdminComponents/CheckOutComponent';
 import CheckComponent from './components/AdminComponents/CheckComponent';
 import PaymentUpdateComponent from './components/AdminComponents/PaymentUpdateComponent';
+import PaymentComponent from './components/AdminComponents/PaymentComponent';
 class App extends Component {
   loginStorage = '';
   state = {};
@@ -102,14 +103,14 @@ class App extends Component {
             <Route path="/reserve-room" element={<ReservbookingComponent />} />
             <Route path="/history" element={<HistoryComponent />} />
             <Route path="/profile" element={<ProfileComponent />} />
-            <Route path="/cancelbooking" element={<CancelComponent />} />
-            <Route path="/review" element={<ReviewComponent />} />
+            <Route path="/cancel-room" element={<CancelComponent />} />
+            <Route path="/review-room" element={<ReviewComponent />} />
 
             {/* admin */}
             <Route path="/admin/login" element={<AdminLoginComponent />} />
             <Route path="/room-admin" element={<RoomAdminComponent />} />
-            <Route path="/payment" element={<BookingInfoComponent />} />
-            <Route path="/payment-update" element={<PaymentUpdateComponent/>} />
+            <Route path="/payment" element={<PaymentComponent />} />
+            <Route path="/payment/booking" element={<PaymentUpdateComponent/>} />
             <Route path="/staff" element={<StaffComponent />} />
             <Route path="/staff-edit" element={<StaffEditComponent />} />
             <Route path="/staff-add" element={<StaffAddComponent />} /> 

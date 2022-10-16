@@ -1,40 +1,31 @@
 import { Component } from "react"
 import moment from 'moment';
 
-class HistoryComponent extends Component {
+class PaymentComponent extends Component {
     state = {}
     constructor() {
         super();
         this.state = {
-            room: []
+            book: [],
+            search: ''
         };
+        this.search = this.search.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
-        this.loginStorage = JSON.parse(localStorage.getItem('login'));
-        this.setState({ 'userId': <span className="bg-text-user">User ID : {this.showUserId(this.loginStorage.ctUserId)}</span> });
-        this.setState({ 'memberType': <span className="bg-text-user">Member Type : {this.loginStorage.mbTypeName}</span> })
+        this.loginAdminStorage = JSON.parse(localStorage.getItem('login-admin'));
+        if (this.loginAdminStorage == null)
+            window.location.href = "/";
+
         const requestOptions = {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         };
-
-        fetch('http://localhost:3001/user-point?userid=' + this.loginStorage.ctUserId, requestOptions)
+        fetch('http://localhost:3001/payment', requestOptions)
             .then(response => response.json())
             .then(data => {
-                this.setState({ 'point': data.ctPoint });
-                this.setState({ 'memberPoint': <span className="bg-text-user">Member Point : {data.ctPoint}</span> })
-            })
-            .catch(error => {
-                console.error('There was an error!', error);
-                alert('เกิดข้อผิดพลาดในการเพิ่มข้อมูล');
-            });
-
-        fetch('http://localhost:3001/history?userid=' + this.loginStorage.ctUserId, requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ 'room': data });
-                console.log(data)
+                this.setState({ 'book': data });
             })
             .catch(error => {
                 console.error('There was an error!', error);
@@ -66,18 +57,37 @@ class HistoryComponent extends Component {
         this.setState({ "error": "" });
     }
 
+    search() {
+        const requestOptions = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        };
+        let condition = '';
+        if(this.state.search !== null && this.state.search !== '') {
+            condition = '?search=' + this.state.search;
+        }
+        fetch('http://localhost:3001/payment' + condition, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ 'book': data });
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                alert('เกิดข้อผิดพลาดในการเพิ่มข้อมูล');
+            });
+    }
+
     render() {
         return (
-            <div className="bg-div" style={{ 'paddingLeft': '10%', 'paddingRight': '10%' }}>
+            <div className="bg-div" style={{ 'paddingLeft': '2%', 'paddingRight': '2%' }}>
                 <div className="header-topic">
-                    <span className="header-reserve">HISTORY</span>
+                    <span className="header-reserve">BOOKING INFO</span>
                     <hr />
                 </div>
                 <div className="row">
                     <div className="col-12">
-                        {this.state.userId}
-                        {this.state.memberType}
-                        {this.state.memberPoint}
+                        <input type="text" style={{'width' : '400px', 'display' : 'inline-block'}} className="form-control" name="search" value={this.state.search} onChange={this.handleChange} placeholder="Search by id, name, price, check-in date"/>
+                        <button style={{'marginLeft' : '10px', 'marginBottom' : '4px'}} className="btn btn-primary" onClick={this.search}>Search</button>
                     </div>
                 </div>
                 <br />
@@ -86,23 +96,28 @@ class HistoryComponent extends Component {
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
+                                <th scope="col">Customer ID</th>
+                                <th scope="col">Customer Name</th>
                                 <th scope="col">Booking ID</th>
                                 <th scope="col">Room Type</th>
-                                <th scope="col" style={{ 'textAlign': 'center' }}>Check-in</th>
-                                <th scope="col" style={{ 'textAlign': 'center' }}>Check-out</th>
+                                <th scope="col" style={{ 'textAlign': 'center' }}>B-Check-in</th>
+                                <th scope="col" style={{ 'textAlign': 'center' }}>B-Check-out</th>
                                 <th scope="col" style={{ 'textAlign': 'center' }}>Discount Code</th>
                                 <th scope="col" style={{ 'textAlign': 'center' }}>Point Use</th>
                                 <th scope="col" style={{ 'textAlign': 'center' }}>Total Price</th>
                                 <th scope="col" style={{ 'textAlign': 'center' }}>Get Point</th>
-                                <th scope="col" style={{ 'textAlign': 'center' }}>Reason</th>
+                                <th scope="col" style={{ 'textAlign': 'center' }}>Check-in</th>
+                                <th scope="col" style={{ 'textAlign': 'center' }}>Check-out</th>
                                 <th scope="col" style={{ 'textAlign': 'center' }}>Status</th>
-                                <th scope="col" style={{ 'textAlign': 'center' }}>Cancel/Review</th>
+                                <th scope="col" style={{ 'textAlign': 'center' }}>PAID</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.room.map((room, index) => (
+                            {this.state.book.map((room, index) => (
                                 <tr key={index} style={{ 'verticalAlign': 'middle' }}>
-                                    <th scope="row">{index+1}</th>
+                                    <th scope="row">{index + 1}</th>
+                                    <td>{this.showUserId(room.ctUserID)}</td>
+                                    <td>{room.ctFullname}</td>
                                     <td>{this.showBookingId(room.BookingID)}</td>
                                     <td>{room.RoomTypeName}</td>
                                     <td style={{ 'textAlign': 'center' }}>{moment(room.checkin).format('DD-MM-YYYY')}</td>
@@ -111,11 +126,10 @@ class HistoryComponent extends Component {
                                     <td style={{ 'textAlign': 'center' }}>{room.point}</td>
                                     <td style={{ 'textAlign': 'center' }}>{room.price}</td>
                                     <td style={{ 'textAlign': 'center' }}>{room.getPoint}</td>
-                                    <td style={{ 'textAlign': 'center' }}>{room.reason === null ? '-' : room.reason}</td>
+                                    <td style={{ 'textAlign': 'center' }}>{room.cIntime !== null ? moment(room.cIntime).format('DD-MM-YYYY HH:mm') : '-'}</td>
+                                    <td style={{ 'textAlign': 'center' }}>{room.cOuttime !== null ? moment(room.cOuttime).format('DD-MM-YYYY HH:mm') : '-'}</td>
                                     <td style={{ 'textAlign': 'center' }}>{room.status}</td>
-                                    <td style={{ 'textAlign': 'center' }}>{room.reviewOpen === 'N' && room.status === 'NOT PAID' ?
-                                        <a href={"/cancel-room?bookingid=" + room.BookingID}><button className="btn btn-danger">Cancel</button></a> :
-                                        room.reviewOpen === 'Y' ? <a href={"/review-room?bookingid=" + room.BookingID}><button className="btn btn-success">Review</button></a> : '-'}</td>
+                                    <td style={{ 'textAlign': 'center' }}>{room.status === 'NOT PAID' || room.status === 'DEPOSIT PAID' ? <a href={"/payment/booking?bookingid=" + room.BookingID}><button className="btn btn-success">UPDATE</button></a> : '-'}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -127,4 +141,4 @@ class HistoryComponent extends Component {
     }
 }
 
-export default HistoryComponent
+export default PaymentComponent

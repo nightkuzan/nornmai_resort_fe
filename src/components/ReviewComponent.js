@@ -1,58 +1,55 @@
-import React, { Component } from 'react'
-import "./css/review.css"
-import "./css/cancel.css"
+import { Component } from "react"
 import moment from 'moment';
 
-export default class ReviewComponent extends Component {
+class ReviewComponent extends Component {
     state = {}
-    constructor(){
+    constructor() {
+        super();
         const queryParams = new URLSearchParams(window.location.search);
         const bookingid = queryParams.get("bookingid") != null ? queryParams.get("bookingid") : '';
-        super();
-        this.state ={
-            ctUserID: '',
-            mbTypeID: '',
-            ctPoint: 0,
+        this.state = {
+            room: {},
             bookingid: bookingid,
-            // checkIn: '',
-            // checkOut: '',
-            // roomType: '',
-            // roomPrice: 0,
-            // dcCode: '',
-            // usePoint: 0
-            room: [],
-            review: ''
+            review: '',
+            star: 5
         };
+        this.handleChange = this.handleChange.bind(this);
+        this.review = this.review.bind(this);
     }
-    
+
     componentDidMount() {
         this.loginStorage = JSON.parse(localStorage.getItem('login'));
-        this.setState({ 'userId': <span className="column-g">User ID : {this.showUserId(this.loginStorage.ctUserId)}</span> });
-        this.setState({ 'memberType': <span className="column-cancel">Member Type : {this.loginStorage.mbTypeName}</span> })
+        this.setState({ 'userId': <span className="bg-text-user">User ID : {this.showUserId(this.loginStorage.ctUserId)}</span> });
+        this.setState({ 'memberType': <span className="bg-text-user">Member Type : {this.loginStorage.mbTypeName}</span> })
         const requestOptions = {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         };
 
-        fetch('http://localhost:3001/history?userid='+ this.loginStorage.ctUserId, requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            this.setState({ 'memberPoint': <span className="column-cancel">Member Point : {data.ctPoint}</span> })
-        })
-        .catch(error => {
-            console.error('There was an error!', error);
+        fetch('http://localhost:3001/user-point?userid=' + this.loginStorage.ctUserId, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ 'point': data.ctPoint });
+                this.setState({ 'memberPoint': <span className="bg-text-user">Member Point : {data.ctPoint}</span> })
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                alert('เกิดข้อผิดพลาดในการเพิ่มข้อมูล');
             });
 
-        fetch('http://localhost:3001/review-cancel-info?bookingid=' + this.state.bookingid, requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            this.setState({ "room": data });
-        })
-        .catch(error => {
-            console.error('There was an error!', error);
-            alert('เกิดข้อผิดพลาดในการเพิ่มข้อมูล');
-        });
+        fetch('http://localhost:3001/room-booking?userid=' + this.loginStorage.ctUserId + "&bookingid=" + this.state.bookingid, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ 'room': data });
+                this.setState({ 'bookingid': this.showBookingId(data.BookingID) });
+                console.log(data)
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                alert('เกิดข้อผิดพลาดในการเพิ่มข้อมูล');
+            });
     }
+
     showUserId(id) {
         let user = "CT";
         for (let index = 0; index < 5 - id.toString().length; index++) {
@@ -62,67 +59,152 @@ export default class ReviewComponent extends Component {
         return user;
     }
 
-  render() {
-    return (
-        <div className='container'>
-        <div className='header-his'>
-            <header>REVIEW</header>
-        </div>
-        <hr/>       
-        <div className='row'>
-            <div className='col-12'>
-                <span className="column-cancel">Booking ID: {this.state.bookingid}</span>
-                {this.state.userId}
-                {this.state.memberType}
-                {this.state.memberPoint}
-            </div>
-        </div>
-        <br/>
-        <div className='layout-review'>
-            <div className='row-can'>
-                <div className='column-can'>
-                    <div className='left-block'>
-                        <span className='column-check'>Check-in: {moment(this.state.room.checkin).format('DD-MM-YYYY')}</span>
-                        <span>to</span>
-                        <span className='column-check'>Check-out: {moment(this.state.room.checkout).format('DD-MM-YYYY')}</span>
-                        <br/>
-                        <br/>
-                        <div className='bg-text-summary-room'>{this.state.room.roomType}</div>
-                        <div className='bg-text-summary-cancel'>ราคาห้อง {this.state.room.roomPrice} บาท</div>
-                        <div className='bg-text-summary-cancel'>โค๊ดส่วนลด {this.state.room.dcCode == null ? "None" : this.state.dcCode}</div>
-                        <div className='bg-text-summary-cancel'>ใช้คะแนน {this.state.room.usePoint} คะแนน</div>
+    showBookingId(id) {
+        let user = "B";
+        for (let index = 0; index < 6 - id.toString().length; index++) {
+            user += "0";
+        }
+        user += id;
+        return user;
+    }
+
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+        this.setState({ "error": "" });
+    }
+
+    review(e) {
+        e.preventDefault();
+        let loginStorage = JSON.parse(localStorage.getItem('login'));
+
+        let raw = JSON.stringify({
+            "userid": loginStorage.ctUserId,
+            "bookingid": this.state.room.BookingID,
+            "review": this.state.review,
+            "star": this.state.star,
+            "roomid" : this.state.room.RoomID,
+            "roomtype" : this.state.room.RoomTypeID
+        });
+        console.log(raw)
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: raw
+        };
+
+        fetch('http://localhost:3001/review-room', requestOptions)
+            .then(response => response)
+            .then(data => {
+                alert('รีวิวห้องพักสำเร็จ');
+                window.location.href = "/history";
+            })
+            .catch(error => {
+                console.log(error)
+                alert('มีข้อมูลบางอย่างไม่ถูกต้อง กรุณากรอกลองอีกครั้ง');
+            });
+    }
+
+    render() {
+        return (
+            <div className="bg-div" style={{ 'paddingLeft': '10%', 'paddingRight': '10%' }}>
+                <div className="header-topic">
+                    <span className="header-reserve">REVIEW</span>
+                    <hr />
+                </div>
+                <div className="row">
+                    <div className="col-lg-4 col-md-12">
+                        <span className="bg-text-user">Booking ID : {this.state.bookingid}</span>
+                    </div>
+                    <div className="col-lg-8 col-md-12" style={{ 'textAlign': 'right' }}>
+                        {this.state.userId}
+                        {this.state.memberType}
+                        {this.state.memberPoint}
                     </div>
                 </div>
-                <div className='column-can'>
-                    <div className='right-block'>
-                        <div className='column-check'>Review</div>
-                        <br/>
-                        <div className='comment-box'>
-                            <form className='comment-form'>
-                                <textarea className='coms-review' type="text" name='review' onChange={this.handleChange} required/>                       
-                                <div className='rev'>Rating :</div>
-                                <span>
-                                    <div className='rate'>
-                                        <input type="radio" id="star5" name="rate" value="5" />
-                                        <label for="star5" title="text">5 stars</label>
-                                        <input type="radio" id="star4" name="rate" value="4" />
-                                        <label for="star4" title="text">4 stars</label>
-                                        <input type="radio" id="star3" name="rate" value="3" />
-                                        <label for="star3" title="text">3 stars</label>
-                                        <input type="radio" id="star2" name="rate" value="2" />
-                                        <label for="star2" title="text">2 stars</label>
-                                        <input type="radio" id="star1" name="rate" value="1" />
-                                        <label for="star1" title="text">1 star</label>
+                <br />
+                <div className="row">
+                    <div className="col-lg-7 col-md-12">
+                        <div className="card" style={{ 'padding': '10px' }}>
+                            <br />
+                            <div className="row">
+                                <span className="bg-text-info">Check-in : {moment(this.state.room.checkin).format('DD-MM-YYYY')} </span>
+                                <span className="bg-text-info" style={{ 'backgroundColor': 'transparent' }}>to </span>
+                                <span className="bg-text-info"> Check-out : {moment(this.state.room.checkout).format('DD-MM-YYYY')}</span>
+                            </div>
+                            <br />
+                            <span className="header-reserve" style={{ 'fontSize': '20px' }}>{this.state.room.RoomTypeName}</span>
+                            <span className="bg-text-summary">
+                                <div className="row">
+                                    <div className="col-6 bg-text-summary-left">ราคาห้อง</div>
+                                    <div className="col-6 bg-text-summary-right">{this.state.room.price} บาท</div>
+                                </div>
+                            </span>
+                            <span className="bg-text-summary">
+                                <div className="row">
+                                    <div className="col-6 bg-text-summary-left">โค้ดส่วนลด </div>
+                                    <div className="col-6 bg-text-summary-right">{this.state.room.dcCode != null ? this.state.room.dcCode : '-'}</div>
+                                </div>
+                            </span>
+                            <span className="bg-text-summary">
+                                <div className="row">
+                                    <div className="col-6 bg-text-summary-left">ใช้คะแนน</div>
+                                    <div className="col-6 bg-text-summary-right">{this.state.room.point != null ? this.state.room.point : 0} คะแนน</div>
+                                </div>
+                            </span>
+                            <br />
+                        </div>
+                    </div>
+                    <div className="col-lg-5 col-md-12">
+                        <div className="card" style={{ 'padding': '10px' }}>
+                            <br />
+                            <div className="row">
+                                <span className="bg-text-info">Review</span>
+                            </div>
+                            <br />
+                            <div className="row">
+                                <form onSubmit={this.review}>
+                                    <div className="form-group">
+                                        <textarea className="form-control" name="review" value={this.state.review} onChange={this.handleChange} rows="3" required></textarea>
                                     </div>
-                                </span>
-                                <button className='review-button' type='submit'>REVIEW</button>
-                            </form>
+
+                                    <span>Rating : &nbsp; </span>
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="star" onChange={this.handleChange} value="1" />
+                                        <label className="form-check-label">1</label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="star" onChange={this.handleChange} value="2" />
+                                        <label className="form-check-label">2</label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="star" onChange={this.handleChange} value="3" />
+                                        <label className="form-check-label">3</label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="star" onChange={this.handleChange} value="4" />
+                                        <label className="form-check-label">4</label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                        <input className="form-check-input" type="radio" name="star" value="5" onChange={this.handleChange} defaultChecked />
+                                        <label className="form-check-label">5</label>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <button type="submit" className="form-control btn btn-success" style={{ 'marginBottom': '20px' }}>REVIEW</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <br />
+                <div>
+
+                </div>
+                <br />
             </div>
-        </div>           
-    </div>
-    )
-  }
+        )
+    }
 }
+
+export default ReviewComponent
