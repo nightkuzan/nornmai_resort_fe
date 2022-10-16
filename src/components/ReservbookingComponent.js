@@ -244,7 +244,7 @@ class ReservbookingCompenent extends Component {
                 </span>
                 <span className="bg-text-summary-final">
                     <div className="row">
-                        <div className="col-6 bg-text-summa ry-left">ธนาคาร ไทยพานิชญ์ เลขบัญชี 667-440-6414  ชื่อบัญชี เอกฤทธิ์ สุฤทธิ์</div>
+                        <div className="col-6 bg-text-summa ry-left">ธนาคาร ไทยพาณิชย์เลขบัญชี 667-440-6414  ชื่อบัญชี เอกฤทธิ์ สุฤทธิ์</div>
                         {/* input image */}
                         <div className="col-6 bg-text-summary-right">
                             <form onSubmit={this.uploadImage}>
