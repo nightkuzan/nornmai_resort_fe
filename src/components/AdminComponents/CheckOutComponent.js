@@ -171,12 +171,7 @@ class CheckOutComponent extends Component {
                                             <div className="col-6 bg-text-summary-right">{this.state.book.cName}</div>
                                         </div>
                                     </span>
-                                    <span className="bg-text-summary">
-                                        <div className="row">
-                                            <div className="col-6 bg-text-summary-left">Payment Method</div>
-                                            <div className="col-6 bg-text-summary-right">{this.state.book.paymentMethod}</div>
-                                        </div>
-                                    </span>
+                                
                                     <span className="bg-text-summary">
                                         <div className="row">
                                             <div className="col-6 bg-text-summary-left">Payment Date</div>

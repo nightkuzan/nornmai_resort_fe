@@ -57,8 +57,8 @@ class DiscountComponent extends Component {
                                 <tr key={index} style={{ 'verticalAlign': 'middle' }}>
                                     <td>{item.dcCode}</td>
                                     <td style={{ 'textAlign': 'center' }}>{item.dcRate} %</td>
-                                    <td style={{ 'textAlign': 'center' }}>{moment(item.startDate).format('DD-MM-YYYY')}</td>
-                                    <td style={{ 'textAlign': 'center' }}>{moment(item.endDate).format('DD-MM-YYYY')}</td>
+                                    <td style={{ 'textAlign': 'center' }}>{moment(item.dcDateStart).format('DD/MM/YYYY')}</td>
+                                    <td style={{ 'textAlign': 'center' }}>{moment(item.dcDateEnd).format('DD/MM/YYYY')}</td>
                                 </tr>
                             ))}
                         </tbody>
