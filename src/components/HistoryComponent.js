@@ -113,9 +113,9 @@ class HistoryComponent extends Component {
                                     <td style={{ 'textAlign': 'center' }}>{room.getPoint}</td>
                                     <td style={{ 'textAlign': 'center' }}>{room.reason === null ? '-' : room.reason}</td>
                                     <td style={{ 'textAlign': 'center' }}>{room.status}</td>
-                                    <td style={{ 'textAlign': 'center' }}>{room.status === 'NOT PAID' ?
+                                    <td style={{ 'textAlign': 'center' }}>{room.reviewOpen === 'N' && room.status === 'NOT PAID' ?
                                         <a href={"/cancel-room?bookingid=" + room.BookingID}><button className="btn btn-danger">Cancel</button></a> :
-                                        room.status === 'FULLY PAID' ? <a href={"/review-room?bookingid=" + room.BookingID}><button className="btn btn-success">Review</button></a> : '-'}</td>
+                                        room.reviewOpen === 'Y' ? <a href={"/review-room?bookingid=" + room.BookingID}><button className="btn btn-success">Review</button></a> : '-'}</td>
                                 </tr>
                             ))}
                         </tbody>
