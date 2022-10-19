@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - nornmaiserver
+name: Build and deploy Node.js app to Azure Web App - nornmaife
 
 on:
   push:
@@ -22,7 +22,6 @@ jobs:
           node-version: '14.x'
 
       - name: npm install, build, and test
-                   
         run: |
           unset CI
           npm install
@@ -39,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -52,7 +51,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'nornmaiserver'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9962C7A46BDA46FB92C2E344E06BFF5F }}
+          app-name: 'nornmaife'
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_845bc9dd99bb4f61a627586079dcd7d2 }}
           package: .
