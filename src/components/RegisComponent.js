@@ -51,7 +51,7 @@ class RegisComponent extends Component {
 
             fetch('http://localhost:3001/signup', requestOptions)
                 .then(response => response.json())
-                .then(data => { 
+                .then(data => {
                     alert('สมัครสมาชิกสำเร็จ');
                     window.location.href = "/login";
                 })
