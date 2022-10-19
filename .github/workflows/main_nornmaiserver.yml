@@ -22,6 +22,8 @@ jobs:
           node-version: '14.x'
 
       - name: npm install, build, and test
+          env:
+            CI: false
         run: |
           npm install
           npm run build --if-present
@@ -54,4 +56,3 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9962C7A46BDA46FB92C2E344E06BFF5F }}
           package: .
-          
