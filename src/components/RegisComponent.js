@@ -111,13 +111,13 @@ class RegisComponent extends Component {
                             <div className="col-md-6">
                                 <div className="form-group">
                                     <label htmlFor="firstname" className="control-label">Firstname *</label>
-                                    <input type="text" name="firstname" value={this.state.firstname} onChange={this.handleChange} className="form-control" placeholder="Your Firstname" required />
+                                    <input type="text" name="firstname" value={this.state.firstname} onChange={this.handleChange} className="form-control" placeholder="Your Firstname *" required />
                                 </div>
                             </div>
                             <div className="col-md-6">
                                 <div className="form-group">
                                     <label htmlFor="lastname" className="control-label">Lastname *</label>
-                                    <input type="text" name="lastname" value={this.state.lastname} onChange={this.handleChange} className="form-control" placeholder="Your Lastname" required/>
+                                    <input type="text" name="lastname" value={this.state.lastname} onChange={this.handleChange} className="form-control" placeholder="Your Lastname *" required/>
                                 </div>
                             </div>
                         </div>
