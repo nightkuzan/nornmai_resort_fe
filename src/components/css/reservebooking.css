@@ -9,3 +9,10 @@
     color: white;
     margin-top: 20px;
 }
+
+.transfer{
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}

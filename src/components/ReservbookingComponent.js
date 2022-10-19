@@ -1,6 +1,6 @@
 import { Component } from "react"
 import { Buffer } from 'buffer';
-
+import './css/reservebooking.css'
 class ReservbookingCompenent extends Component {
     state = {}
     constructor() {
@@ -26,7 +26,7 @@ class ReservbookingCompenent extends Component {
             "sumPrice": 0,
             "date" : 0,
             "image": '',
-
+            "transfer": '',
         }
         this.handleChange = this.handleChange.bind(this);
         this.getdiscount = this.getdiscount.bind(this);
@@ -153,19 +153,10 @@ class ReservbookingCompenent extends Component {
                 window.location.href = "/reserve";
             });
     }
-    uploadImage(e) {
-        e.preventDefault();
-        const data = new FormData();
-        data.append('file', this.uploadInput.files[0]);
-        data.append('filename', this.fileName.value);
-        fetch('http://localhost:3001/upload', {
-            method: 'POST',
-            body: data,
-        }).then((response) => {
-            response.json().then((body) => {
-                this.setState({ 'image': body.file });
-            });
-        });
+    imgselectHandler(e){
+        this.setState({
+            transfer:URL.createObjectURL(e.target.files[0])
+        })
     }
 
 
@@ -249,8 +240,13 @@ class ReservbookingCompenent extends Component {
                         <div className="col-6 bg-text-summary-right">
                             <form onSubmit={this.uploadImage}>
                                 <p>อัพโหลดหลักฐานการโอนเงิน</p>
-                                <input type="file" className="form-control" style={{ 'width': '40%', 'display': 'inline' }} onChange={this.handleImage} />
+                                <input type="file" className="form-control" style={{ 'width': '40%', 'display': 'inline' }} onChange={this.imgselectHandler.bind(this)} />
                             </form>
+                        </div>
+                    </div>
+                    <div className="row transfer">
+                        <div className="col-8">
+                            <img src={this.state.transfer} alt="หลักฐานการโอนเงิน" className="col-6"/>
                         </div>
                     </div>
                 </span>
