@@ -124,14 +124,14 @@ class RegisComponent extends Component {
                         <div className="row">
                             <div className="col-md-6">
                                 <div className="form-group">
-                                    <label htmlFor="dob" className="control-label">Birthday</label>
-                                    <input type="date" name="dob" value={this.state.dob} onChange={this.handleChange} className="form-control" />
+                                    <label htmlFor="dob" className="control-label">Birthday *</label>
+                                    <input type="date" name="dob" value={this.state.dob} onChange={this.handleChange} className="form-control" required/>
                                 </div>
                             </div>
                             <div className="col-md-6">
                                 <div className="form-group">
-                                    <label htmlFor="gender" className="control-label">Gender</label>
-                                    <select className="form-select" name="gender" value={this.state.gender} onChange={this.handleChange} >
+                                    <label htmlFor="gender" className="control-label">Gender *</label>
+                                    <select className="form-select" name="gender" value={this.state.gender} onChange={this.handleChange} required >
                                         <option disabled value="">Choose...</option>
                                         <option value="M">Male</option>
                                         <option value="F">Female</option>
