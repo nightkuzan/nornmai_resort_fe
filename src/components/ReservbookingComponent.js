@@ -1,6 +1,7 @@
 import { Component } from "react"
 import { Buffer } from 'buffer';
 import './css/reservebooking.css'
+import {AiOutlineTransaction} from 'react-icons/ai'
 class ReservbookingCompenent extends Component {
     state = {}
     constructor() {
@@ -26,7 +27,7 @@ class ReservbookingCompenent extends Component {
             "sumPrice": 0,
             "date" : 0,
             "image": '',
-            "transfer": '',
+            "transfer": <AiOutlineTransaction/>,
         }
         this.handleChange = this.handleChange.bind(this);
         this.getdiscount = this.getdiscount.bind(this);
