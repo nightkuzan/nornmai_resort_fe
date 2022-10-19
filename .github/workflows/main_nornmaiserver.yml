@@ -22,7 +22,10 @@ jobs:
           node-version: '14.x'
 
       - name: npm install, build, and test
-         
+        run: |
+          npm ci
+          unset CI
+                  
         run: |
           npm install
           npm run build --if-present
