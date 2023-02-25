@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Buffer } from "buffer";
+import EditRoom from "./EditRoom";
 // Got ทำ
 //
 //
@@ -22,7 +23,7 @@ export default class RoomAdminComponent extends Component {
       this.loginAdminStorage.pName !== "Manager"
     )
       window.location.href = "/";
-
+            
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -69,6 +70,10 @@ export default class RoomAdminComponent extends Component {
     }
   }
 
+  setRoomID(roomId) {
+    localStorage.setItem("room-id", roomId);
+  }
+
   render() {
     return (
       <div className="bg-div" style={{ paddingLeft: "2%", paddingRight: "2%" }}>
@@ -76,7 +81,11 @@ export default class RoomAdminComponent extends Component {
           <span className="header-reserve">ROOM</span>
           <hr />
         </div>
-
+        <div>
+          <a href="/create-room">
+            <button className="btn btn-success">Create Room</button>
+          </a>
+        </div>
         <div>
           <table className="table">
             <thead>
@@ -112,6 +121,10 @@ export default class RoomAdminComponent extends Component {
                 <th scope="col" style={{ textAlign: "center" }}>
                   Rating
                 </th>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Edit
+
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -145,7 +158,16 @@ export default class RoomAdminComponent extends Component {
                   </td>
                   <td style={{ textAlign: "center" }}>{room.rDescription}</td>
                   <td style={{ textAlign: "center" }}>{room.rRating}</td>
-                  <td style={{ textAlign: "center" }}></td>
+                  <td style={{ textAlign: "center" }}>
+                  <a href={"/edit-room?/roomid="+room.RoomID}>
+                    <button
+                      onClick={(e) => this.setRoomID(room.RoomID)}
+                      className="btn btn-success"
+                    >
+                      Edit
+                    </button>
+                  </a>
+                  </td>
                 </tr>
               ))}
             </tbody>
