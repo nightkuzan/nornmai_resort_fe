@@ -30,6 +30,9 @@ import CheckOutComponent from './components/AdminComponents/CheckOutComponent';
 import CheckComponent from './components/AdminComponents/CheckComponent';
 import PaymentUpdateComponent from './components/AdminComponents/PaymentUpdateComponent';
 import PaymentComponent from './components/AdminComponents/PaymentComponent';
+import CreateRoom from './components/AdminComponents/CreateRoom';
+import EditRoom from './components/AdminComponents/EditRoom';
+
 class App extends Component {
   loginStorage = '';
   state = {};
@@ -61,8 +64,8 @@ class App extends Component {
         this.setState({ 'customer': <li className="nav-item"><a className="nav-link mx-2" href="/customer">Customer</a></li> });
       }
     }
-    console.log(this.state)
-    console.log(localStorage.getItem('login'))
+    // console.log(this.state)
+    // console.log(localStorage.getItem('login'))
   }
   render() {
     return (
@@ -120,6 +123,8 @@ class App extends Component {
             <Route path="/check" element={<CheckComponent />} />
             <Route path="/check-in" element={<CheckInComponent />} />
             <Route path="/check-out" element={<CheckOutComponent />} />
+            <Route path="/create-room" element={<CreateRoom />} />
+            <Route path="/edit-room" element={<EditRoom/>} />
           </Routes>
         </BrowserRouter>
       </div>
