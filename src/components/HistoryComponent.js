@@ -14,6 +14,7 @@ class HistoryComponent extends Component {
         this.loginStorage = JSON.parse(localStorage.getItem('login'));
         this.setState({ 'userId': <span className="bg-text-user">User ID : {this.showUserId(this.loginStorage.ctUserId)}</span> });
         this.setState({ 'memberType': <span className="bg-text-user">Member Type : {this.loginStorage.mbTypeName}</span> })
+        
         const requestOptions = {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
