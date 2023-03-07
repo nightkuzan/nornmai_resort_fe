@@ -54,7 +54,7 @@ export default class AdminAllBooking extends Component {
 
     render() {
         return (
-            <div className="bg-div" style={{ 'paddingLeft': '10%', 'paddingRight': '10%' }}>
+            <div className="bg-div" style={{ 'paddingLeft': '2%', 'paddingRight': '2%' }}>
                 <div className="header-topic">
                 <span className="header-reserve">ALL BOOKING</span>
                 </div>

@@ -50,6 +50,7 @@ class DiscountComponent extends Component {
                                 <th scope="col" style={{ 'textAlign': 'center' }}>DISCOUNT RATE</th>
                                 <th scope="col" style={{ 'textAlign': 'center' }}>DATE START</th>
                                 <th scope="col" style={{ 'textAlign': 'center' }}>DATE END</th>
+                                <th scope="col" style={{ 'textAlign': 'center' }}>AMOUNT</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,8 +58,32 @@ class DiscountComponent extends Component {
                                 <tr key={index} style={{ 'verticalAlign': 'middle' }}>
                                     <td>{item.dcCode}</td>
                                     <td style={{ 'textAlign': 'center' }}>{item.dcRate} %</td>
-                                    <td style={{ 'textAlign': 'center' }}>{moment(item.dcDateStart).format('DD/MM/YYYY')}</td>
-                                    <td style={{ 'textAlign': 'center' }}>{moment(item.dcDateEnd).format('DD/MM/YYYY')}</td>
+
+                                    {
+                                        item.startDate === null || item.endDate === null  ?
+                                            <>
+                                                <td style={{ 'textAlign': 'center' }}>-</td>
+                                                <td style={{ 'textAlign': 'center' }}>-</td>
+                                                <td style={{ 'textAlign': 'center' }}>{item.dcAmount}</td>
+
+                                            </>
+
+                                            :
+                                            item.dcAmount === null ?
+                                            <>
+                                                <td style={{ 'textAlign': 'center' }}>{(moment(item.startDate).format('DD-MMM-YYYY'))}</td>
+                                                <td style={{ 'textAlign': 'center' }}>{(moment(item.endDate).format('DD-MMM-YYYY'))}</td>
+                                                <td style={{ 'textAlign': 'center' }}>-</td>
+                                            </>
+                                            :
+                                            <>
+                                                <td style={{ 'textAlign': 'center' }}>{(moment(item.startDate).format('DD-MMM-YYYY'))}</td>
+                                                <td style={{ 'textAlign': 'center' }}>{(moment(item.endDate).format('DD-MMM-YYYY'))}</td>  
+                                                <td style={{ 'textAlign': 'center' }}>{item.dcAmount}</td>
+                                            </>
+
+                                    }
+
                                 </tr>
                             ))}
                         </tbody>

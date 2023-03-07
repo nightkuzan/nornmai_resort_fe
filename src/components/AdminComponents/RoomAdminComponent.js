@@ -32,7 +32,7 @@ export default class RoomAdminComponent extends Component {
       .then((response) => response.json())
       .then((data) => {
         this.setState({ room: data }, function () {
-          console.log(this.state.room);
+          // console.log(this.state.room);
         });
       })
       .catch((error) => {
@@ -43,6 +43,7 @@ export default class RoomAdminComponent extends Component {
 
   readImage(img) {
     var buffer = new Buffer(img, "base64");
+    console.log(buffer);
     return buffer;
   }
 
@@ -73,6 +74,31 @@ export default class RoomAdminComponent extends Component {
   setRoomID(roomId) {
     localStorage.setItem("room-id", roomId);
   }
+
+  deleteRoom(roomId) {
+    if (window.confirm("delete room id : " + roomId)) {
+      let raw = JSON.stringify({
+        RoomID: roomId,
+      });
+      console.log(raw);
+      const requestOptions = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: raw,
+      };
+      
+      fetch("http://localhost:3001/room", requestOptions)
+        .then((response) => response)
+        .then((data) => {
+          window.location.href = "/room-admin";
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+          alert("เกิดข้อผิดพลาด");
+        });
+    }
+  }
+
 
   render() {
     return (
@@ -125,6 +151,9 @@ export default class RoomAdminComponent extends Component {
                   Edit
 
                 </th>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Delete
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -167,6 +196,14 @@ export default class RoomAdminComponent extends Component {
                       Edit
                     </button>
                   </a>
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    <button
+                      onClick={(e) => this.deleteRoom(room.RoomID)}
+                      className="btn btn-danger"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

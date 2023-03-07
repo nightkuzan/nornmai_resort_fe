@@ -32,6 +32,7 @@ import PaymentUpdateComponent from './components/AdminComponents/PaymentUpdateCo
 import PaymentComponent from './components/AdminComponents/PaymentComponent';
 import CreateRoom from './components/AdminComponents/CreateRoom';
 import EditRoom from './components/AdminComponents/EditRoom';
+import CustomerComponent from './components/AdminComponents/CustomerComponent';
 
 class App extends Component {
   loginStorage = '';
@@ -56,7 +57,7 @@ class App extends Component {
           this.setState({ 'staff': <li className="nav-item"><a className="nav-link mx-2" href="/staff">Staff</a></li> });
           this.setState({ 'discount': <li className="nav-item"><a className="nav-link mx-2" href="/discount">Discount</a></li> });
         }
-        this.setState({ 'reserve': <li className="nav-item"><a className="nav-link mx-2" href="/admin">Admin</a></li> });
+        this.setState({ 'reserve': <li className="nav-item"><a className="nav-link mx-2" href="/admin">All Booking</a></li> });
         this.setState({ 'history': <li className="nav-item"><a className="nav-link mx-2" href="/payment">Payment</a></li> });
         this.setState({ 'login': <li className="nav-item"><a className="nav-link mx-2" href="/check">Checkin/Checkout</a></li> });
         this.setState({ 'logout': <li className="nav-item"><a className="nav-link mx-2" href="/logout">Logout</a></li> });
@@ -125,6 +126,7 @@ class App extends Component {
             <Route path="/check-out" element={<CheckOutComponent />} />
             <Route path="/create-room" element={<CreateRoom />} />
             <Route path="/edit-room" element={<EditRoom/>} />
+            <Route path="/customer" element={<CustomerComponent/>} />
           </Routes>
         </BrowserRouter>
       </div>

@@ -10,11 +10,15 @@ class DiscountAddComponent extends Component {
             dcRate: '',
             startDate: moment(new Date()).format('YYYY-MM-DD'),
             endDate: '',
-            min : moment(new Date()).format('YYYY-MM-DD')
+            min: moment(new Date()).format('YYYY-MM-DD'),
+            dcAmount: 0,
+            amountOrdate: 'amount',
         };
         this.add = this.add.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeDate = this.handleChangeDate.bind(this);
+        this.handleChangeAmount = this.handleChangeAmount.bind(this);
+        this.handleChangeAmountstate = this.handleChangeAmountstate.bind(this);
     }
 
     componentDidMount() {
@@ -29,7 +33,21 @@ class DiscountAddComponent extends Component {
         this.setState({ [name]: value });
         this.setState({ "error": "" });
     }
-    
+
+    handleChangeAmount(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+        this.setState({ 'dcAmount': value });
+        this.setState({ "error": "" });
+    }
+
+    handleChangeAmountstate(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+        this.setState({ 'amountOrdate': value });
+        this.setState({ "error": "" });
+    }
+
     handleChangeDate(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value });
@@ -39,12 +57,36 @@ class DiscountAddComponent extends Component {
 
     add(e) {
         e.preventDefault();
-        let raw = JSON.stringify({
-            dcCode: this.state.dcCode,
-            dcRate: this.state.dcRate,
-            startDate: this.state.startDate,
-            endDate: this.state.endDate
-        });
+        let raw = '';
+        if (this.state.amountOrdate === 'date') {
+            raw = JSON.stringify({
+                dcCode: this.state.dcCode,
+                dcRate: this.state.dcRate,
+                startDate: this.state.startDate,
+                endDate: this.state.endDate,
+                // dcAmount: '',
+                amountOrdate: this.state.amountOrdate,
+
+            });
+        } else if(this.state.amountOrdate === 'amount'){
+            raw = JSON.stringify({
+                dcCode: this.state.dcCode,
+                dcRate: this.state.dcRate,
+                // startDate: '',
+                // endDate: '',
+                dcAmount: this.state.dcAmount,
+                amountOrdate: this.state.amountOrdate,
+            });
+        }else if(this.state.amountOrdate === 'both'){
+            raw = JSON.stringify({
+                dcCode: this.state.dcCode,
+                dcRate: this.state.dcRate,
+                startDate: this.state.startDate,
+                endDate: this.state.endDate,
+                dcAmount: this.state.dcAmount,
+                amountOrdate: this.state.amountOrdate,
+            });
+        }
 
         const requestOptions = {
             method: 'POST',
@@ -88,19 +130,72 @@ class DiscountAddComponent extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label htmlFor="startDate" className="control-label">START DATE</label>
-                                    <input type="date" name="startDate" min={this.state.min} value={this.state.startDate} onChange={this.handleChangeDate} className="form-control" required/>
+                        <label htmlFor="amountOrDate">ประเภทของส่วนลด</label>
+                        <br></br>
+                        {/* dropdown for select choice */}
+                        <select
+                            name="amountOrDate"
+                            value={this.state.amountOrDate}
+                            onChange={this.handleChangeAmountstate}
+                            className="form-control"
+                            required
+                        >
+                            <option value="amount">จำนวนครั้ง</option>
+                            <option value="date">วันที่</option>
+                            <option value="both">ทั้งวันที่และจำนวนครั้ง</option>
+                        </select>
+                        {
+                            this.state.amountOrdate === 'amount' ?
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <div className="form-group">
+                                            <label htmlFor="amount" className="control-label">AMOUNT</label>
+                                            <input type="number" min="1" name="amount" value={this.state.dcAmount} onChange={this.handleChangeAmount} className="form-control" placeholder="AMOUNT" required />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div><div className="col-md-6">
-                                <div className="form-group">
-                                    <label htmlFor="endDate" className="control-label">END DATE</label>
-                                    <input type="date" name="endDate" min={this.state.startDate} value={this.state.endDate} onChange={this.handleChange} className="form-control" required/>
+                                :
+                                this.state.amountOrdate === 'date' ?
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <div className="form-group">
+                                            <label htmlFor="startDate" className="control-label">START DATE</label>
+                                            <input type="date" name="startDate" min={this.state.min} value={this.state.startDate} onChange={this.handleChangeDate} className="form-control" required />
+                                        </div>
+                                    </div><div className="col-md-6">
+                                        <div className="form-group">
+                                            <label htmlFor="endDate" className="control-label">END DATE</label>
+                                            <input type="date" name="endDate" min={this.state.startDate} value={this.state.endDate} onChange={this.handleChange} className="form-control" required />
+                                        </div>
+                                    </div>
+                                </div>:
+                                <>
+                                <div className="row">
+                                <div className="col-md-6">
+                                    <div className="form-group">
+                                        <label htmlFor="amount" className="control-label">AMOUNT</label>
+                                        <input type="number" min="1" name="amount" value={this.state.dcAmount} onChange={this.handleChangeAmount} className="form-control" placeholder="AMOUNT" required />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                             <div className="row">
+                                    <div className="col-md-6">
+                                        <div className="form-group">
+                                            <label htmlFor="startDate" className="control-label">START DATE</label>
+                                            <input type="date" name="startDate" min={this.state.min} value={this.state.startDate} onChange={this.handleChangeDate} className="form-control" required />
+                                        </div>
+                                    </div><div className="col-md-6">
+                                        <div className="form-group">
+                                            <label htmlFor="endDate" className="control-label">END DATE</label>
+                                            <input type="date" name="endDate" min={this.state.startDate} value={this.state.endDate} onChange={this.handleChange} className="form-control" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        }
+
+
+
                         <div className="row">
                             <div className="form-group" style={{ 'textAlign': 'center' }}>
                                 <span style={{ 'color': 'red' }}>{this.state.error}</span>
