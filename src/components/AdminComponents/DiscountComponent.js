@@ -6,8 +6,10 @@ class DiscountComponent extends Component {
     constructor() {
         super();
         this.state = {
-            discount: []
+            discount: [],
+            dcCode: "",
         };
+        this.setdcCode = this.setdcCode.bind(this);
     }
 
     componentDidMount() {
@@ -32,6 +34,14 @@ class DiscountComponent extends Component {
             });
     }
 
+    setdcCode(dcCode, dcRate, dcStartDate, dcEndDate, dcAmount) {
+        localStorage.setItem('dcCode', dcCode);
+        localStorage.setItem('dcRate', dcRate);
+        localStorage.setItem('dcStartDate', dcStartDate);
+        localStorage.setItem('dcEndDate', dcEndDate);
+        localStorage.setItem('dcAmount', dcAmount);
+    }
+
     render() {
         return (
             <div className="bg-div" style={{ 'paddingLeft': '2%', 'paddingRight': '2%' }}>
@@ -51,6 +61,10 @@ class DiscountComponent extends Component {
                                 <th scope="col" style={{ 'textAlign': 'center' }}>DATE START</th>
                                 <th scope="col" style={{ 'textAlign': 'center' }}>DATE END</th>
                                 <th scope="col" style={{ 'textAlign': 'center' }}>AMOUNT</th>
+                                <th scope="col" style={{ 'textAlign': 'center' }}>EDIT
+
+                                </th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -58,9 +72,12 @@ class DiscountComponent extends Component {
                                 <tr key={index} style={{ 'verticalAlign': 'middle' }}>
                                     <td>{item.dcCode}</td>
                                     <td style={{ 'textAlign': 'center' }}>{item.dcRate} %</td>
-
-                                    {
-                                        item.startDate === null || item.endDate === null  ?
+                                    <td style={{ 'textAlign': 'center' }}>{(moment(item.startDate).format('DD-MMM-YYYY'))!=="Invalid date"?(moment(item.startDate).format('DD-MMM-YYYY')):"-"}</td>
+                                    <td style={{ 'textAlign': 'center' }}>{(moment(item.endDate).format('DD-MMM-YYYY'))!=="Invalid date"?(moment(item.endDate).format('DD-MMM-YYYY')):"-"}</td>
+                                    
+                                    <td style={{ 'textAlign': 'center' }}>{item.dcAmount>0?item.dcAmount:"-"}</td>
+                                    {/* {
+                                        item.startDate === null || item.endDate === null || item.dcAmount > 0 ?
                                             <>
                                                 <td style={{ 'textAlign': 'center' }}>-</td>
                                                 <td style={{ 'textAlign': 'center' }}>-</td>
@@ -70,19 +87,29 @@ class DiscountComponent extends Component {
 
                                             :
                                             item.dcAmount === null ?
-                                            <>
-                                                <td style={{ 'textAlign': 'center' }}>{(moment(item.startDate).format('DD-MMM-YYYY'))}</td>
-                                                <td style={{ 'textAlign': 'center' }}>{(moment(item.endDate).format('DD-MMM-YYYY'))}</td>
-                                                <td style={{ 'textAlign': 'center' }}>-</td>
-                                            </>
-                                            :
-                                            <>
-                                                <td style={{ 'textAlign': 'center' }}>{(moment(item.startDate).format('DD-MMM-YYYY'))}</td>
-                                                <td style={{ 'textAlign': 'center' }}>{(moment(item.endDate).format('DD-MMM-YYYY'))}</td>  
-                                                <td style={{ 'textAlign': 'center' }}>{item.dcAmount}</td>
-                                            </>
+                                                <>
+                                                    <td style={{ 'textAlign': 'center' }}>{(moment(item.startDate).format('DD-MMM-YYYY'))}</td>
+                                                    <td style={{ 'textAlign': 'center' }}>{(moment(item.endDate).format('DD-MMM-YYYY'))}</td>
+                                                    <td style={{ 'textAlign': 'center' }}>-</td>
+                                                </>
+                                                :
+                                                <>
+                                                    <td style={{ 'textAlign': 'center' }}>{(moment(item.startDate).format('DD-MMM-YYYY'))}</td>
+                                                    <td style={{ 'textAlign': 'center' }}>{(moment(item.endDate).format('DD-MMM-YYYY'))}</td>
+                                                    <td style={{ 'textAlign': 'center' }}>{item.dcAmount}</td>
+                                                </>
 
-                                    }
+                                    } */}
+                                    <td style={{ 'textAlign': 'center' }}>
+                                        <a href={"/discount-edit?/dcCode=" + item.dcCode}>
+                                            <button
+                                                className="btn btn-warning"
+                                                onClick={(e) =>
+                                                    this.setdcCode(item.dcCode, item.dcRate,
+                                                        (moment(item.startDate).format('DD-MMM-YYYY')), (moment(item.endDate).format('DD-MMM-YYYY')), item.dcAmount)}>EDIT
+                                            </button>
+                                        </a>
+                                    </td>
 
                                 </tr>
                             ))}

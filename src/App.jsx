@@ -33,6 +33,7 @@ import PaymentComponent from './components/AdminComponents/PaymentComponent';
 import CreateRoom from './components/AdminComponents/CreateRoom';
 import EditRoom from './components/AdminComponents/EditRoom';
 import CustomerComponent from './components/AdminComponents/CustomerComponent';
+import EditDiscount from './components/AdminComponents/EditDiscount';
 
 class App extends Component {
   loginStorage = '';
@@ -127,6 +128,7 @@ class App extends Component {
             <Route path="/create-room" element={<CreateRoom />} />
             <Route path="/edit-room" element={<EditRoom/>} />
             <Route path="/customer" element={<CustomerComponent/>} />
+            <Route path="/discount-edit" element={<EditDiscount/>} />
           </Routes>
         </BrowserRouter>
       </div>

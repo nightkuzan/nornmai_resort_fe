@@ -31,8 +31,10 @@ export default class RoomAdminComponent extends Component {
     fetch("http://localhost:3001/room-admin", requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ room: data }, function () {
-          // console.log(this.state.room);
+        this.setState({ room: data }
+          
+          , function () {
+          console.log(this.state.room);
         });
       })
       .catch((error) => {
@@ -43,7 +45,7 @@ export default class RoomAdminComponent extends Component {
 
   readImage(img) {
     var buffer = new Buffer(img, "base64");
-    console.log(buffer);
+    // console.log(buffer);
     return buffer;
   }
 
@@ -75,10 +77,11 @@ export default class RoomAdminComponent extends Component {
     localStorage.setItem("room-id", roomId);
   }
 
-  deleteRoom(roomId) {
+  deleteRoom(roomId,RoomTypeID) {
     if (window.confirm("delete room id : " + roomId)) {
       let raw = JSON.stringify({
         RoomID: roomId,
+        RoomTypeID: RoomTypeID
       });
       console.log(raw);
       const requestOptions = {
@@ -90,6 +93,7 @@ export default class RoomAdminComponent extends Component {
       fetch("http://localhost:3001/room", requestOptions)
         .then((response) => response)
         .then((data) => {
+          window.alert("ลบห้อง สำเร็จ");
           window.location.href = "/room-admin";
         })
         .catch((error) => {
@@ -199,7 +203,7 @@ export default class RoomAdminComponent extends Component {
                   </td>
                   <td style={{ textAlign: "center" }}>
                     <button
-                      onClick={(e) => this.deleteRoom(room.RoomID)}
+                      onClick={(e) => this.deleteRoom(room.RoomID,room.RoomTypeID)}
                       className="btn btn-danger"
                     >
                       Delete

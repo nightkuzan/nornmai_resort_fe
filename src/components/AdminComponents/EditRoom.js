@@ -58,7 +58,7 @@ export default class EditRoom extends Component {
             rSize: data[0].rSize,
             rStatus: data[0].rStatus,
             rfloor: data[0].rfloor,
-
+            rDefaultRoomID: data[0].RoomID,
           });
       })
       .catch((error) => {
@@ -66,6 +66,7 @@ export default class EditRoom extends Component {
         alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล");
       });
   }
+
 
   readImage(img) {
     var buffer = new Buffer(img, "base64");
@@ -85,19 +86,19 @@ export default class EditRoom extends Component {
 
   editRoom() {
     let raw = JSON.stringify({
-      RoomID: this.state.RoomID,
-      RoomTypeName: this.state.RoomTypeName,
-      rCapacity: this.state.rCapacity,
-      rCleaningState: this.state.rCleaningState,
-      rDefaultPrice: this.state.rDefaultPrice,
-      rDescription: this.state.rDescription,
-      // rImage: this.state.rImage,
-      rNumBed: this.state.rNumBed,
-      rRating: this.state.rRating,
-      rSize: this.state.rSize,
-      rStatus: this.state.rStatus,
-      rfloor: this.state.rfloor,
-      
+      "RoomID": this.state.RoomID,
+      "RoomTypeName": this.state.RoomTypeName,
+      "rCapacity": this.state.rCapacity,
+      "rCleaningState": this.state.rCleaningState,
+      "rDefaultPrice": this.state.rDefaultPrice,
+      "rDescription": this.state.rDescription,
+      "rImage": this.state.rImage,
+      "rNumBed": this.state.rNumBed,
+      "rRating": this.state.rRating,
+      "rSize": this.state.rSize,
+      "rStatus": this.state.rStatus,
+      "rfloor": this.state.rfloor,
+      "rDefaultRoomID": this.state.rDefaultRoomID,
     });
     console.log(raw);
     const requestOptions = {
@@ -105,17 +106,17 @@ export default class EditRoom extends Component {
       headers: { "Content-Type": "application/json" },
       body: raw,
     };
-    fetch("http://localhost:3001/room-admin/edit/roomid?"+this.state.RoomID, requestOptions)
-      .then((response) => response.json())
+    fetch("http://localhost:3001/room-admin/edit", requestOptions)
+      .then((response) => response)
       .then((data) => {
         console.log(data);
         alert("แก้ไขข้อมูลเรียบร้อย");
-        window.location.href = "/admin/room";
+        window.location.href = "/room-admin";
       })
-      // .catch((error) => {
-      //   console.error("There was an error!", error);
-      //   alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล");
-      // });
+      .catch((error) => {
+        console.error("There was an error!", error);
+        alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล");
+      });
   }
 
 

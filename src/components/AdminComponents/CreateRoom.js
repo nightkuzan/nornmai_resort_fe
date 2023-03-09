@@ -68,15 +68,15 @@ export default class CrudRoom extends Component {
       body: raw,
     };
     fetch("http://localhost:3001/room-admin/create", requestOptions)
-      .then((response) => response.json())
+      .then((response) => response)
       .then((data) => {
         alert("เพิ่มข้อมูลสำเร็จ");
-        window.location.href = "/admin/room";
-      });
-    // .catch((error) => {
-    //   console.error("There was an error!", error);
-    //   alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล");
-    // });
+        window.location.href = "/room-admin";
+      })
+    .catch((error) => {
+      console.error("There was an error!", error);
+      alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล");
+    });
   }
 
   render() {

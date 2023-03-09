@@ -76,6 +76,7 @@ class ReservComponent extends Component {
       .then((response) => response.json())
       .then((data) => {
         this.setState({ room: data });
+        console.log(data);
       })
       .catch((error) => {
         console.error("There was an error!", error);
@@ -278,7 +279,7 @@ class ReservComponent extends Component {
                       จำนวนคนสูงสุดที่สามารถเข้าพักได้ {room.capacity} คน
                     </span>
                     <span className="bg-text-reserve">
-                      จำนวนห้องพักคงเหลือ {room.freeRoom} ห้อง
+                      จำนวนห้องพักคงเหลือในประเภทเดียวกันจำนวน {room.freeRoom} ห้อง
                     </span>
                     <br />
                     <span className="bg-text-reserve">
@@ -293,7 +294,9 @@ class ReservComponent extends Component {
                           "&checkin=" +
                           this.state.saveCheckin +
                           "&checkout=" +
-                          this.state.checkout
+                          this.state.checkout +
+                          "&roomID=" +
+                          room.roomID
                         }
                       >
                         <button
