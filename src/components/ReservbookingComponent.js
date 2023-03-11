@@ -2,6 +2,7 @@ import { Component } from "react";
 import { Buffer } from "buffer";
 import "./css/reservebooking.css";
 import { AiOutlineTransaction } from "react-icons/ai";
+
 class ReservbookingCompenent extends Component {
   state = {};
   constructor() {
@@ -36,6 +37,7 @@ class ReservbookingCompenent extends Component {
       image: "",
       transfer: <AiOutlineTransaction />,
       dcAmount: 0,
+      transferimg: "",
     };
     this.handleChange = this.handleChange.bind(this);
     this.getdiscount = this.getdiscount.bind(this);
@@ -91,7 +93,7 @@ class ReservbookingCompenent extends Component {
         try {
           this.setState({ room: data });
           this.setState({ sumPrice: data.price * date });
-          console.log(data);
+          // console.log(data);
         } catch (error) {
           console.error("There was an error parsing the JSON response:", error);
           alert(
@@ -199,8 +201,11 @@ class ReservbookingCompenent extends Component {
       dcCode: this.state.saveDcCode !== "" ? this.state.saveDcCode : "NONE",
       roomType: this.state.room.roomTypeID,
         roomID: this.state.roomID,
+      transferimg: this.state.transferimg,
     });
-
+    console.log(this.state.transferimg);
+    // var buffer = new Buffer(this.state.transfer, "base64");
+    // console.log(buffer);
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -236,6 +241,15 @@ class ReservbookingCompenent extends Component {
     this.setState({
       transfer: URL.createObjectURL(e.target.files[0]),
     });
+
+
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    reader.addEventListener( "load", () => {
+      this.setState({ transferimg: reader.result });
+      console.log(this.state.transferimg);
+    });
+    reader.readAsDataURL(file);
   }
 
   render() {
