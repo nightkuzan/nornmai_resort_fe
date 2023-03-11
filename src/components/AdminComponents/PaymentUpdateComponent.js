@@ -63,7 +63,7 @@ class PaymentUpdateComponent extends Component {
     }
 
     readImage(img) {
-        console.log(img)
+        // console.log(img)
         var buffer = new Buffer(img, 'base64');
         return buffer;
     }
@@ -138,7 +138,11 @@ class PaymentUpdateComponent extends Component {
                             <br />
                             {this.state.book !== '' || this.state.book != null ? <div className="row">
                                 <div className="col-xl-6 col-lg-12">
-                                    <img src={this.state.image} alt="room" style={{ 'width': '100%' }} />
+                                    <img src={this.state.image} alt="room" style={{ 'width': '100%','marginBottom':'5%' }} />
+                                    <span className="bg-text-summary" style={{ 'width': 'fit-content' }}>
+                                        หลักฐานการโอนเงิน
+                                    </span>
+                                    {this.state.book.bkTransfer? <img src={this.readImage(this.state.book.bkTransfer)} alt="Transfer" style={{ 'width': '50%','marginTop':'2%' }} />:"ไม่มีการแนบหลักฐานการโอนเงิน"}
                                 </div>
                                 <div className="col-xl-6 col-lg-12">
                                     <span className="bg-text-summary" style={{ 'marginTop': '0px' }}>
