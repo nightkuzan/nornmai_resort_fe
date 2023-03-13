@@ -85,9 +85,10 @@ export default class EditRoom extends Component {
   }
 
   editRoom() {
+    console.log(this.state.RoomTypeID);
     let raw = JSON.stringify({
       "RoomID": this.state.RoomID,
-      "RoomTypeName": this.state.RoomTypeName,
+      // "RoomTypeName": this.state.RoomTypeName,
       "rCapacity": this.state.rCapacity,
       "rCleaningState": this.state.rCleaningState,
       "rDefaultPrice": this.state.rDefaultPrice,
@@ -99,8 +100,8 @@ export default class EditRoom extends Component {
       "rStatus": this.state.rStatus,
       "rfloor": this.state.rfloor,
       "rDefaultRoomID": this.state.rDefaultRoomID,
+      "RoomTypeID": this.state.RoomTypeID,
     });
-    console.log(raw);
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -165,62 +166,23 @@ export default class EditRoom extends Component {
                           }}
                         />
                         <label>Room Type</label>
+                        {/* select of room type */}
                         <select
                           className="form-control"
-                          id="roomtype"
-                          defaultValue={this.state.RoomTypeName}
+                          value={this.state.RoomTypeName}
+                          // placeholder={this.state.RoomTypeName}
                           onChange={(e) => {
-                            this.setState({ RoomTypeName: e.target.value });
+                            this.setState({ RoomTypeID: e.target.value.split("-")[0] ,
+                            RoomTypeName: e.target.value.split("-")[1]+" Room"});
                           }}
                         >
-                          {this.state.RoomTypeName === "Single Room" ? (
-                            <>
-                              <option value="Single" selected>
-                                Single Room
-                              </option>
-                              <option value="Standard">Standard Room</option>
-                              <option value="Superior">Superior Room</option>
-                              <option value="Presidentail">
+                          <option value={this.state.RoomTypeID}>{this.state.RoomTypeName}</option>
+                          <option value="R00001-Single">Single Room</option>
+                           <option value="R00002-Standard">Standard Room</option>
+                              <option value="R00003-Superior">Superior Room</option>
+                              <option value="R00004-Presidentail">
                                 Presidentail Room
                               </option>
-                            </>
-                          ) : this.state.RoomTypeName ===
-                            "Standard Room" ? (
-                            <>
-                              <option value="Standard" selected>
-                                Standard Room
-                              </option>
-                              <option value="Single">Single Room</option>
-                              <option value="Superior">Superior Room</option>
-                              <option value="Presidentail">
-                                Presidentail Room
-                              </option>
-                            </>
-                          ) : this.state.RoomTypeName ===
-                            "Superior Room" ? (
-                            <>
-                              <option value="Superior" selected>
-                                Superior Room
-                              </option>
-                              <option value="Single">Single Room</option>
-                              <option value="Standard">Standard Room</option>
-                              <option value="Presidentail">
-                                Presidentail Room
-                              </option>
-                            </>
-                          ) : this.state.RoomTypeName ===
-                            "Presidentail Room" ? (
-                            <>
-                              <option value="Presidentail" selected>
-                                Presidentail Room
-                              </option>
-                              <option value="Single">Single Room</option>
-                              <option value="Standard">Standard Room</option>
-                              <option value="Superior">Superior Room</option>
-                            </>
-                          ) : (
-                            ""
-                          )}
                         </select>
                         <label>Room Floor</label>
                         <input
