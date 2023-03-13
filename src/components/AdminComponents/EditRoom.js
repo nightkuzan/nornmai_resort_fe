@@ -19,7 +19,7 @@ export default class EditRoom extends Component {
       rSize:"",
       rStatus: "",
       rfloor: "",
-
+      RoomTypeID: "",
     };
     this.readImage = this.readImage.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
@@ -59,6 +59,7 @@ export default class EditRoom extends Component {
             rStatus: data[0].rStatus,
             rfloor: data[0].rfloor,
             rDefaultRoomID: data[0].RoomID,
+            RoomTypeID: data[0].RoomTypeID,
           });
       })
       .catch((error) => {
