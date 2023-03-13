@@ -117,7 +117,7 @@ export default class EditDiscount extends Component {
         return (
             <div className="bg-div" style={{ paddingLeft: "2%", paddingRight: "2%" }}>
                 <div className="header-topic">
-                    <span className="header-reserve">EDIT ROOM</span>
+                    <span className="header-reserve">EDIT DISCOUNT</span>
                     <hr />
                 </div>
                 <form encType="multipart/form-data" >
