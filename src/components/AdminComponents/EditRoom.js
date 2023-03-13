@@ -87,6 +87,7 @@ export default class EditRoom extends Component {
 
   editRoom() {
     console.log(this.state.RoomTypeID);
+    console.log(this.state.rDefaultPrice);
     let raw = JSON.stringify({
       "RoomID": this.state.RoomID,
       // "RoomTypeName": this.state.RoomTypeName,
@@ -102,6 +103,7 @@ export default class EditRoom extends Component {
       "rfloor": this.state.rfloor,
       "rDefaultRoomID": this.state.rDefaultRoomID,
       "RoomTypeID": this.state.RoomTypeID,
+      "rPrice": this.state.RoomPrice,
     });
     const requestOptions = {
       method: "PUT",
