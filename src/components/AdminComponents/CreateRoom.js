@@ -10,7 +10,7 @@ export default class CrudRoom extends Component {
     super();
     this.state = {
       RoomID: "",
-      RoomTypeName: "",
+      RoomTypeName: "Single",
       RoomPrice: "",
       RoomFloor: "",
       RoomDescription: "",
@@ -21,6 +21,7 @@ export default class CrudRoom extends Component {
 
     this.create = this.create.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
+    this.handleRoomIDChange = this.handleRoomIDChange.bind(this);
   }
 
   componentDidMount() {
@@ -38,15 +39,11 @@ export default class CrudRoom extends Component {
 
     var file = e.target.files[0];
     var reader = new FileReader();
-    reader.addEventListener( "load", () => {
+    reader.addEventListener("load", () => {
       this.setState({ RoomImage: reader.result });
       console.log(this.state.RoomImage);
     });
     reader.readAsDataURL(file);
-
-
-  
-    
   }
 
   create(e) {
@@ -73,10 +70,26 @@ export default class CrudRoom extends Component {
         alert("เพิ่มข้อมูลสำเร็จ");
         window.location.href = "/room-admin";
       })
-    .catch((error) => {
-      console.error("There was an error!", error);
-      alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล");
-    });
+      .catch((error) => {
+        console.error("There was an error!", error);
+        alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล");
+      });
+  }
+
+  handleRoomIDChange(e) {
+    // check pattern start with R 
+    const re = /^[R]{1}$/;
+    const re2 = /^[R]{1}[M]{1}$/;
+    const re3 = /^[R]{1}[M]{1}[0-9]{1}$/;
+    const re4 = /^[R]{1}[M]{1}[0-9]{1}[0-9]{1}$/;
+    const re5 = /^[R]{1}[M]{1}[0-9]{1}[0-9]{1}[0-9]{1}$/;
+    const re6 = /^[R]{1}[M]{1}[0-9]{1}[0-9]{1}[0-9]{1}[0-9]{1}$/;
+    const { name, value } = e.target;
+    console.log(value);
+
+    if (value === "" || re.test(value) || re2.test(value) || re3.test(value) || re4.test(value) || re5.test(value) || re6.test(value)) {
+      this.setState({ [name]: value });
+    }
   }
 
   render() {
@@ -92,21 +105,23 @@ export default class CrudRoom extends Component {
           <div className="row">
             <div className="col-md-6">
               <div className="form-group">
-                <label>Room ID</label>
+                <label htmlFor="roomid" className="control-label">Room ID *</label>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Room ID: RMxxxx"
-                  onChange={(e) => {
-                    this.setState({ RoomID: e.target.value });
-                  }}
+                  placeholder="Room ID: ex. RM0001"
+                  name="RoomID"
+                  value={this.state.RoomID}
+                  onChange={this.handleRoomIDChange}
                   required
+
                 />
+               
               </div>
             </div>
             <div className="col-md-6">
               <div className="form-group">
-                <label>Room Type</label>
+                <label>Room Type *</label>
                 <select
                   className="form-control"
                   id="roomtype"
@@ -115,7 +130,6 @@ export default class CrudRoom extends Component {
                   }}
                   required
                 >
-                  <option value="0">Select Room Type</option>
                   <option value="Single">Single Room</option>
                   <option value="Standard">Standard Room</option>
                   <option value="Superior">Superior Room</option>
@@ -125,37 +139,41 @@ export default class CrudRoom extends Component {
             </div>
             <div className="col-md-6">
               <div className="form-group">
-                <label>Room Price</label>
+                <label>Room Price *</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   placeholder="Room Price"
                   onChange={(e) => {
                     this.setState({ RoomPrice: e.target.value });
                   }}
                   required
+                  min = "0"
+                  max="6000"
                 />
               </div>
             </div>
 
             <div className="col-md-6">
               <div className="form-group">
-                <label>Room Floor</label>
+                <label>Room Floor *</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   placeholder="Room Floor"
                   onChange={(e) => {
                     this.setState({ RoomFloor: e.target.value });
                   }}
                   required
+                  min="1"
+                  max="5"
                 />
               </div>
             </div>
 
             <div className="col-md-6">
               <div className="form-group">
-                <label>Room Bed </label>
+                <label>Room Bed *</label>
                 <input
                   type="text"
                   className="form-control"
@@ -170,22 +188,24 @@ export default class CrudRoom extends Component {
 
             <div className="col-md-6">
               <div className="form-group">
-                <label>Room Capacity </label>
+                <label>Room Capacity *</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   placeholder="Room Capacity: ex. 2 "
                   onChange={(e) => {
                     this.setState({ RoomCapacity: e.target.value });
                   }}
                   required
+                  min="1"
+                  max="5"
                 />
               </div>
             </div>
 
             <div className="col-md-6">
               <div className="form-group">
-                <label>Room Image</label>
+                <label>Room Image *</label>
                 <input
                   type="file"
                   className="form-control"
@@ -194,11 +214,16 @@ export default class CrudRoom extends Component {
                   required
                 />
               </div>
-              <img className="img-fluid preview" src={this.state.RoomImage} alt="preview room" style={{width:"300px",height:"auto"}} />
+              <img
+                className="img-fluid preview"
+                src={this.state.RoomImage}
+                alt="preview room"
+                style={{ width: "300px", height: "auto" }}
+              />
             </div>
             <div className="col-md-6">
               <div className="form-group">
-                <label>Room Description</label>
+                <label>Room Description *</label>
                 <textarea
                   className="form-control"
                   rows="3"

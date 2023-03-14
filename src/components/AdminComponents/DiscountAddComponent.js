@@ -126,7 +126,7 @@ class DiscountAddComponent extends Component {
                             <div className="col-md-6">
                                 <div className="form-group">
                                     <label htmlFor="dcRate" className="control-label">DISCOUNT RATE *</label>
-                                    <input type="number" min="1" name="dcRate" value={this.state.dcRate} onChange={this.handleChange} className="form-control" placeholder="DISCOUNT RATE *" required />
+                                    <input type="number" min="1" max="100" name="dcRate" value={this.state.dcRate} onChange={this.handleChange} className="form-control" placeholder="DISCOUNT RATE *" required />
                                 </div>
                             </div>
                         </div>

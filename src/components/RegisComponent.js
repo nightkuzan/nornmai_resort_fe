@@ -1,4 +1,6 @@
+import moment from "moment";
 import { Component } from "react"
+
 
 class RegisComponent extends Component {
     state = {}
@@ -12,7 +14,8 @@ class RegisComponent extends Component {
             "firstname": "",
             "lastname": "",
             "gender": "",
-            "error": ""
+            "error": "",
+            "today": moment().format('YYYY-MM-DD')
         }
 
         this.register = this.register.bind(this);
@@ -125,7 +128,7 @@ class RegisComponent extends Component {
                             <div className="col-md-6">
                                 <div className="form-group">
                                     <label htmlFor="dob" className="control-label">Birthday *</label>
-                                    <input type="date" name="dob" value={this.state.dob} onChange={this.handleChange} className="form-control" required/>
+                                    <input type="date" name="dob" value={this.state.dob} onChange={this.handleChange} className="form-control" max={this.state.today} required/>
                                 </div>
                             </div>
                             <div className="col-md-6">

@@ -60,6 +60,7 @@ export default class EditRoom extends Component {
             rfloor: data[0].rfloor,
             rDefaultRoomID: data[0].RoomID,
             RoomTypeID: data[0].RoomTypeID,
+            "rPrice": data[0].rDefaultPrice,
           });
       })
       .catch((error) => {

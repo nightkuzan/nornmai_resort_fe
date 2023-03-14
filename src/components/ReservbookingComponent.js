@@ -305,9 +305,7 @@ class ReservbookingCompenent extends Component {
                     onChange={this.handleChange}
                     name="dcCode"
                   />
-                  <button className="btn form-control dc-btn">
-                    GET DISCOUNT
-                  </button>
+                 {this.state.sumPrice - this.state.dcPointPrice >0?<button className="btn form-control dc-btn">USE CODE</button>:<button className="btn form-control dc-btn" disabled>USE CODE</button>}
                 </form>
               </span>
               <span className="bg-text-reserve">
@@ -317,13 +315,15 @@ class ReservbookingCompenent extends Component {
                     type="number"
                     className="form-control"
                     min="0"
-                    max={this.state.point}
+                    max={Math.min(this.state.point, (this.state.sumPrice*10).toFixed(0))}
                     style={{ width: "40%", display: "inline" }}
                     value={this.state.dcPoint}
                     onChange={this.handleChange}
                     name="dcPoint"
                   />
-                  <button className="btn form-control dc-btn">USE POINT</button>
+                  {this.state.sumPrice -
+                this.state.dcCodePrice >0?<button className="btn form-control dc-btn">USE POINT</button>:<button className="btn form-control dc-btn" disabled>USE POINT</button>}
+                  
                 </form>
               </span>
             </div>

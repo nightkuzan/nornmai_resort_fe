@@ -35,6 +35,7 @@ class DiscountComponent extends Component {
     }
 
     setdcCode(dcCode, dcRate, dcStartDate, dcEndDate, dcAmount) {
+  
         localStorage.setItem('dcCode', dcCode);
         localStorage.setItem('dcRate', dcRate);
         localStorage.setItem('dcStartDate', dcStartDate);
@@ -72,8 +73,8 @@ class DiscountComponent extends Component {
                                 <tr key={index} style={{ 'verticalAlign': 'middle' }}>
                                     <td>{item.dcCode}</td>
                                     <td style={{ 'textAlign': 'center' }}>{item.dcRate} %</td>
-                                    <td style={{ 'textAlign': 'center' }}>{(moment(item.startDate).format('DD-MMM-YYYY'))!=="Invalid date"?(moment(item.startDate).format('DD-MMM-YYYY')):"-"}</td>
-                                    <td style={{ 'textAlign': 'center' }}>{(moment(item.endDate).format('DD-MMM-YYYY'))!=="Invalid date"?(moment(item.endDate).format('DD-MMM-YYYY')):"-"}</td>
+                                    <td style={{ 'textAlign': 'center' }}>{!["01-Jan-1970","Invalid date"].includes((moment(item.startDate).format('DD-MMM-YYYY')))?(moment(item.startDate).format('DD-MMM-YYYY')):"-"}</td>
+                                    <td style={{ 'textAlign': 'center' }}>{!["01-Jan-1970","Invalid date"].includes((moment(item.startDate).format('DD-MMM-YYYY')))?(moment(item.endDate).format('DD-MMM-YYYY')):"-"}</td>
                                     
                                     <td style={{ 'textAlign': 'center' }}>{item.dcAmount>0?item.dcAmount:"-"}</td>
                                     {/* {

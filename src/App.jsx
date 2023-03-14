@@ -57,12 +57,13 @@ class App extends Component {
         if(this.loginAdminStorage.pName === 'Manager') {
           this.setState({ 'staff': <li className="nav-item"><a className="nav-link mx-2" href="/staff">Staff</a></li> });
           this.setState({ 'discount': <li className="nav-item"><a className="nav-link mx-2" href="/discount">Discount</a></li> });
+          this.setState({ 'reserve': <li className="nav-item"><a className="nav-link mx-2" href="/admin">All Booking</a></li> });
+          this.setState({ 'room': <li className="nav-item"><a className="nav-link mx-2" href="/room-admin">Room</a></li> });
+  
         }
-        this.setState({ 'reserve': <li className="nav-item"><a className="nav-link mx-2" href="/admin">All Booking</a></li> });
         this.setState({ 'history': <li className="nav-item"><a className="nav-link mx-2" href="/payment">Payment</a></li> });
         this.setState({ 'login': <li className="nav-item"><a className="nav-link mx-2" href="/check">Checkin/Checkout</a></li> });
         this.setState({ 'logout': <li className="nav-item"><a className="nav-link mx-2" href="/logout">Logout</a></li> });
-        this.setState({ 'room': <li className="nav-item"><a className="nav-link mx-2" href="/room-admin">Room</a></li> });
         this.setState({ 'customer': <li className="nav-item"><a className="nav-link mx-2" href="/customer">Customer</a></li> });
       }
     }

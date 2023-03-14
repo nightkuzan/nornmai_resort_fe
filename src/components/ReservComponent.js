@@ -91,8 +91,12 @@ class ReservComponent extends Component {
   }
 
   handleChangeDate(e) {
-    const { name, value } = e.target;
+    var { name, value } = e.target;
+    // change value to date type
+    
     this.setState({ [name]: value });
+    value = new Date(value);
+    value = value.add(1, "days").format("YYYY-MM-DD");
     this.setState({ checkout: value });
     this.setState({ error: "" });
   }
@@ -235,7 +239,7 @@ class ReservComponent extends Component {
                 <input
                   type="date"
                   name="checkout"
-                  min={this.state.checkin}
+                  min={moment(this.state.checkin).add(1, "days").format("YYYY-MM-DD")}
                   max="2025-12-31"
                   value={this.state.checkout}
                   onChange={this.handleChange}

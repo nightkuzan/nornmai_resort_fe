@@ -40,7 +40,7 @@ class AdminLoginComponent extends Component {
             .then(response => response.json())
             .then(data => {
                 localStorage.setItem('login-admin', JSON.stringify(data));
-                window.location.href = "/admin";
+                window.location.href = "/";
             })
             .catch(error => {
                 console.error('There was an error!', error);
