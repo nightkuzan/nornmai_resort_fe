@@ -128,9 +128,11 @@ export default class EditDiscount extends Component {
           alert("แก้ไขข้อมูลสำเร็จ");
           window.location.href = "/discount";
         })
+
         .catch((error) => {
           console.error("There was an error!", error.toString());
           alert("เกิดข้อผิดพลาดในการเพิ่มข้อมูล");
+          
         });
     } else {
       alert("ยกเลิกการแก้ไขข้อมูล");
@@ -186,8 +188,8 @@ export default class EditDiscount extends Component {
                 <input
                   type="date"
                   className="form-control"
-                  min={this.state.dcStartDate!== '1999-01-01'? this.state.dcStartDate: moment(new Date()).format("YYYY-MM-DD")}
-                  max="2025-12-31"
+                  min={this.state.dcStartDate!== 'Invalid date'? this.state.dcStartDate: moment(new Date()).format("YYYY-MM-DD")}
+                  max={this.state.dcEndDate}
                   id="dcStartDate"
                   name="dcStartDate"
                   value={this.state.dcStartDate}
